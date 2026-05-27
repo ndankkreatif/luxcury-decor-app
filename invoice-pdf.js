@@ -1,4 +1,5 @@
-
+const { Filesystem, Directory } = Capacitor.Plugins;
+const { Share } = Capacitor.Plugins;
 
     async function downloadInvoice(){
 
