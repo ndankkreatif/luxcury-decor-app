@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Luxcury Decor</string>
+    <string name="title_activity_main">Luxcury Decor</string>
+    <string name="package_name">com.luxcurydecor.app</string>
+    <string name="custom_url_scheme">com.luxcurydecor.app</string>
+</resources>

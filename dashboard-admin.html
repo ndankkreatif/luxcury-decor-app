@@ -1,0 +1,2582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<title>Admin Data Booking LXD</title>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+    
+    body{
+        font-family:Arial,sans-serif;
+        background:#f7f3ee;
+        color:#222;
+    }
+    
+    a{
+        text-decoration:none;
+    }
+    
+    /* =========================
+       LINK WHATSAPP
+    ========================= */
+    .wa-link{
+        display:flex;
+        align-items:center;
+        gap:6px;
+        color:#1f7a43;
+        font-weight:bold;
+    }
+    
+    .wa-link:hover{
+        opacity:0.8;
+    }
+    
+    .wa-link i{
+        font-size:16px;
+    }
+    
+    /* =========================
+       LOGIN ADMIN
+    ========================= */
+    .admin-login-box{
+        width:100%;
+        min-height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        padding:20px;
+    }
+    
+    .admin-login-card{
+        width:100%;
+        max-width:380px;
+        background:#fff;
+        border:1px solid #ddd;
+        border-radius:14px;
+        padding:30px 24px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    }
+    
+    .admin-login-card h2{
+        text-align:center;
+        color:#3a2a18;
+        margin-bottom:24px;
+        font-size:28px;
+    }
+    
+    .admin-login-card input{
+        width:100%;
+        padding:13px 14px;
+        border:1px solid #ccc;
+        border-radius:8px;
+        font-size:14px;
+        margin-bottom:14px;
+    }
+    
+    .admin-login-card button{
+        width:100%;
+        padding:13px;
+        border:none;
+        border-radius:8px;
+        background:#3a2a18;
+        color:#fff;
+        font-weight:bold;
+        cursor:pointer;
+    }
+    
+    #adminLoginPesan{
+        margin-top:14px;
+        text-align:center;
+        color:#b42318;
+        font-size:14px;
+    }
+    
+    /* =========================
+       ADMIN PAGE
+    ========================= */
+    .admin-page{
+        display:none;
+        width:100%;
+        padding:30px;
+    }
+    
+    .admin-header{
+        margin-bottom:22px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:15px;
+    }
+    
+    .admin-header h1{
+        font-size:42px;
+        color:#3a2a18;
+        margin-bottom:6px;
+    }
+    
+    .admin-header p{
+        color:#666;
+        font-size:16px;
+    }
+    
+    .logout-btn{
+        padding:12px 18px;
+        border:none;
+        border-radius:10px;
+        background:#a12828;
+        color:#fff;
+        font-weight:bold;
+        cursor:pointer;
+        flex-shrink:0;
+    }
+    
+    .grafik-btn{
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+        gap:6px;
+        font-size:28px;
+        font-weight:bold;
+        color:#2457ff;
+        text-decoration:none;
+    }
+    
+    /* =========================
+       KEMBALI MENU
+    ========================= */
+    .kembali-menu{
+        width:100%;
+        display:flex;
+        justify-content:flex-end;
+        margin-bottom:20px;
+    }
+    
+    .kembali-menu a{
+        display:flex;
+        align-items:center;
+        gap:8px;
+        color:#2457ff;
+        font-size:15px;
+        font-weight:bold;
+    }
+    
+    /* =========================
+       FILTER ADMIN
+    ========================= */
+    .admin-filter{
+        display:flex;
+        gap:10px;
+        margin-bottom:20px;
+        flex-wrap:wrap;
+    }
+    
+    .admin-filter input,
+    .admin-filter select{
+        padding:12px 14px;
+        border:1px solid #ccc;
+        border-radius:10px;
+        font-size:14px;
+        background:#fff;
+        outline:none;
+    }
+    
+    .admin-filter input{
+        flex:1;
+        min-width:280px;
+    }
+    
+    .filter-reset-Btn,
+    .filter-refresh-Btn{
+        padding:12px 22px;
+        border:none;
+        border-radius:10px;
+        color:#fff;
+        font-weight:bold;
+        cursor:pointer;
+    }
+    
+    .filter-reset-Btn{
+        background:#1f8f3a;
+    }
+    
+    .filter-reset-Btn:hover{
+        background:#104e23;
+    }
+    
+    .filter-refresh-Btn{
+        background:blue;
+    }
+    
+    .filter-refresh-Btn:hover{
+        background:darkblue;
+    }
+    
+    /* =========================
+       TABLE ADMIN
+    ========================= */
+    .table-wrap{
+        width:100%;
+        overflow-x:auto;
+        background:#fff;
+        border:1px solid #ddd;
+        border-radius:14px;
+    }
+    
+    .admin-table{
+        width:100%;
+        border-collapse:collapse;
+        min-width:1000px;
+    }
+    
+    .admin-table th{
+        background:#4a2f14;
+        color:#fff;
+        padding:16px 14px;
+        text-align:left;
+        font-size:14px;
+        white-space:nowrap;
+    }
+    
+    .admin-table td{
+        padding:16px 14px;
+        border-bottom:1px solid #eee;
+        font-size:14px;
+        vertical-align:middle;
+    }
+    
+    .admin-table tbody tr{
+        cursor:pointer;
+    }
+    
+    .admin-table tbody tr:hover{
+        background:#faf7f2;
+    }
+    
+    /* =========================
+       STATUS
+    ========================= */
+    .status{
+        display:inline-block;
+        padding:7px 12px;
+        border-radius:20px;
+        font-size:12px;
+        font-weight:bold;
+    }
+    
+    .status.baru{
+        background:#fff3cd;
+        color:#8a5a00;
+    }
+    
+    .status.lama{
+        background:#e5e7eb;
+        color:#374151;
+    }
+    
+    .status.selesai{
+        background:#d1fae5;
+        color:#166534;
+    }
+    
+    .status.belum{
+        background:#fee2e2;
+        color:#991b1b;
+    }
+    
+    /* =========================
+       POPUP DETAIL
+    ========================= */
+    .popup{
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.45);
+        display:none;
+        justify-content:center;
+        align-items:center;
+        z-index:9999;
+        padding:15px;
+    }
+    
+    .popup.active{
+        display:flex;
+    }
+    
+    .popup-box{
+        width:100%;
+        max-width:650px;
+        max-height:90vh;
+        overflow-y:auto;
+        background:#fff;
+        padding:24px;
+        position:relative;
+        border-radius:14px;
+    }
+    
+    .popup-close{
+        position:sticky;
+        top:10px;
+        margin-left:auto;
+        width:34px;
+        height:34px;
+        border:none;
+        border-radius:50%;
+        background:#000;
+        color:#fff;
+        font-size:16px;
+        cursor:pointer;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        z-index:20;
+    }
+    
+    .popup-close:hover{
+        transform:scale(1.05);
+        background:#b42318;
+    }
+    
+    .popup-box h3{
+        margin-bottom:20px;
+        color:#3a2a18;
+    }
+    
+    .popup-table{
+        width:100%;
+        border-collapse:collapse;
+    }
+    
+    .popup-table td{
+        padding:10px 4px;
+        border-bottom:1px solid #eee;
+        vertical-align:top;
+        font-size:14px;
+    }
+    
+    .popup-table td:first-child{
+        width:180px;
+        font-weight:bold;
+    }
+    
+    body.popup-open{
+        overflow:hidden;
+    }
+    
+    /* =========================
+       POPUP ACTION
+    ========================= */
+    .popup-action{
+        display:flex;
+        justify-content:space-between;
+        gap:10px;
+        margin-top:18px;
+    }
+    
+    .hapus-btn,
+    .download-btn{
+        padding:11px 18px;
+        border:none;
+        border-radius:10px;
+        color:#fff;
+        font-weight:bold;
+        cursor:pointer;
+    }
+    
+    .hapus-btn{
+        background:#b42318;
+    }
+    
+    .download-btn{
+        background:#4a2f14;
+    }
+    
+    /* =========================
+       POPUP HAPUS
+    ========================= */
+    .popup-hapus{
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.45);
+        display:none;
+        align-items:center;
+        justify-content:center;
+        z-index:10000;
+        padding:15px;
+    }
+    
+    .popup-hapus.active{
+        display:flex;
+    }
+    
+    .popup-hapus-box{
+        width:100%;
+        max-width:360px;
+        background:#fff;
+        border-radius:16px;
+        padding:24px;
+        text-align:center;
+    }
+    
+    .popup-hapus-box h3{
+        color:#3a2a18;
+        margin-bottom:10px;
+    }
+    
+    .popup-hapus-box p{
+        color:#666;
+        font-size:14px;
+        margin-bottom:16px;
+    }
+    
+    .popup-hapus-box input{
+        width:100%;
+        padding:12px;
+        border:1px solid #ccc;
+        border-radius:9px;
+        margin-bottom:10px;
+    }
+    
+    .pesan-hapus{
+        color:#b42318;
+        font-size:13px;
+        margin-bottom:10px;
+    }
+    
+    .popup-hapus-action{
+        display:flex;
+        gap:10px;
+        justify-content:space-between;
+    }
+    
+    .btn-no,
+    .btn-yes{
+        flex:1;
+        padding:11px;
+        border:none;
+        border-radius:9px;
+        font-weight:bold;
+        cursor:pointer;
+    }
+    
+    .btn-no{
+        background:#e5e7eb;
+        color:#333;
+    }
+    
+    .btn-yes{
+        background:#b42318;
+        color:#fff;
+    }
+    
+    /* =========================
+       EDIT FIELD
+    ========================= */
+    .edit-value{
+        flex:1;
+    }
+    
+    .edit-cell{
+        display:flex;
+        align-items:center;
+        gap:4px;
+    }
+    
+    .edit-input{
+        flex:1;
+        min-width:0;
+        height:32px;
+        padding:2px 4px;
+        border:1px solid #8b6b3f;
+        border-radius:8px;
+        font-size:12px;
+        outline:none;
+    }
+
+
+    .edit-input:focus,
+    .edit-textarea:focus{
+        border-color:#4a2f14;
+        box-shadow:0 0 0 2px rgba(74,47,20,0.12);
+    }
+    
+    .icon-btn{
+        width:34px;
+        height:34px;
+        border:none;
+        border-radius:8px;
+        cursor:pointer;
+        font-size:15px;
+        display:inline-flex;
+        align-items:center;
+        justify-content:center;
+    }
+    
+    .edit-btn{
+        background:#f3eee7;
+        color:#4a2f14;
+    }
+    
+    .edit-btn:hover{
+        background:#e7dacb;
+    }
+    
+    .save-btn{
+        width:36px;
+        height:32px;
+        font-size:13px;
+        border-radius:8px;
+        background:green;
+        color:#fff;
+        border:none;
+    }
+    
+    .cancel-btn{
+        width:36px;
+        height:32px;
+        font-size:13px;
+        border-radius:8px;
+        border:none;
+        background:red;
+        color:#fff;
+    }
+    
+    #input-pilihanPaket{
+        width:100%;
+        min-width:0;
+    }
+    
+    /* =========================
+       EDIT TEXTAREA
+    ========================= */
+    .edit-textarea-box{
+        display:flex;
+        align-items:flex-start;
+        gap:10px;
+    }
+    
+    .edit-textarea-box .edit-value{
+        flex:1;
+    }
+    
+    .edit-textarea{
+        width:100%;
+        min-height:220px;
+        padding:12px;
+        border:1px solid #8b6b3f;
+        border-radius:10px;
+        font-size:14px;
+        resize:vertical;
+        outline:none;
+    }
+    
+    .edit-textarea-action{
+        display:flex;
+        gap:8px;
+        margin-top:10px;
+    }
+    
+    /* =========================
+       TOAST NOTIFICATION
+    ========================= */
+    .toast-notif{
+        position:fixed;
+        top:20px;
+        right:20px;
+        min-width:280px;
+        max-width:420px;
+        background:#1f7a43;
+        color:#fff;
+        padding:16px 50px 16px 18px;
+        border-radius:14px;
+        font-size:14px;
+        line-height:1.5;
+        box-shadow:0 10px 30px rgba(0,0,0,0.18);
+        z-index:99999;
+        opacity:0;
+        transform:translateY(-12px);
+        transition:all 0.3s ease;
+    }
+    
+    .toast-notif.show{
+        opacity:1;
+        transform:translateY(0);
+    }
+    
+    .toast-notif.error{
+        background:#b42318;
+    }
+    
+    .toast-close{
+        position:absolute;
+        top:10px;
+        right:10px;
+        width:24px;
+        height:24px;
+        border:none;
+        border-radius:50%;
+        background:#ffffff33;
+        color:#fff;
+        font-size:12px;
+        cursor:pointer;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        transition:0.2s;
+    }
+    
+    .toast-close:hover{
+        background:#ffffff55;
+        transform:scale(1.08);
+    }
+    
+    /* =========================
+       FOTO POPUP
+    ========================= */
+    .preview-foto-popup{
+        width:100%;
+        max-width:220px;
+        border-radius:12px;
+        border:1px solid #ccc;
+        display:block;
+    }
+    
+    /* =========================
+       HOVER GLOBAL
+    ========================= */
+    .admin-login-card button:hover,
+    .logout-btn:hover,
+    .grafik-btn:hover,
+    .kembali-menu a:hover,
+    .hapus-btn:hover,
+    .download-btn:hover,
+    .save-btn:hover,
+    .cancel-btn:hover,
+    .btn-no:hover,
+    .btn-yes:hover{
+        opacity:0.8;
+    }
+    
+    /* =========================
+       MOBILE
+    ========================= */
+    @media(max-width:800px){
+
+        .logout-btn span{
+        display:none;
+    }
+
+    input[type="time"]{
+    width:65px;
+    min-width:65px;
+    padding:0px 4px;
+    font-size:11px;
+}
+
+.edit-input{
+    flex:1;
+    width: 120px;
+    /* min-width:50px; */
+
+    height:32px;
+    padding:2px 6px;
+/* background: red; */
+    font-size:12px;
+}
+
+.admin-page{
+    padding:10px;
+}
+
+.admin-header{
+    gap:8px;
+    align-items:flex-start;
+}
+
+.admin-header h1{
+    font-size:26px;
+}
+
+.admin-header p{
+    font-size:11px;
+}
+
+.grafik-btn{
+    width:auto;
+    min-width:70px;
+    height:32px;
+    padding:0 8px;
+    font-size:14px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+
+    white-space:nowrap;
+}
+
+.logout-btn{
+    width:auto;
+    min-width:70px;
+    height:32px;
+    padding:0 10px;
+    font-size:11px;
+
+    flex-shrink:0;
+    border-radius:50px;
+}
+
+.admin-filter{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr 1fr;
+    gap:6px;
+    margin-bottom:12px;
+}
+
+.admin-filter input{
+    grid-column:1 / 5;
+}
+
+.admin-filter input,
+.admin-filter select,
+.admin-filter button{
+    width:100%;
+    min-width:0;
+    height:34px;
+    padding:0 8px;
+    border-radius:7px;
+    font-size:11px;
+}
+
+.table-wrap{
+    width:100%;
+    overflow-x:auto;
+}
+
+.admin-table{
+    width:100%;
+    min-width:30px;
+    border-collapse:collapse;
+}
+
+.admin-table th,
+.admin-table td{
+    font-size:12px;
+    padding:10px 8px;
+
+    white-space:normal;
+    word-break:break-word;
+    overflow-wrap:anywhere;
+
+    vertical-align:top;
+}
+
+/* NOMOR WA TETAP 1 BARIS */
+.admin-table th:nth-child(3),
+.admin-table td:nth-child(3){
+    white-space:nowrap;
+    word-break:normal;
+    overflow-wrap:normal;
+    vertical-align:middle;
+}
+
+.hide-mobile{
+    display:none;
+}
+
+.popup{
+        padding:0;
+        align-items:flex-start;
+        overflow:hidden;
+    }
+
+    .popup-box{
+        width:100%;
+        max-width:100%;
+        height:100dvh;
+        max-height:100dvh;
+        border-radius:0;
+        padding:22px 14px 90px;
+        overflow-y:auto;
+    }
+
+.popup-close{
+    position:sticky;
+    top:14px;
+
+    width:34px;
+    height:34px;
+
+    font-size:16px;
+    z-index:20;
+}
+
+.popup-table td{
+    display:table-cell;
+    width:auto;
+    font-size:13px;
+    padding:10px 4px;
+    word-break:break-word;
+    overflow-wrap:anywhere;
+}
+
+.popup-table td:first-child{
+    width:120px;
+}
+
+.toast-notif{
+    top:14px;
+    left:14px;
+    right:14px;
+
+    min-width:auto;
+    max-width:none;
+
+    font-size:13px;
+    padding:14px 46px 14px 16px;
+}
+}
+    </style>
+
+
+</head>
+
+<body>
+
+<!-- toast notif -->
+<div id="toastNotif" class="toast-notif">
+
+    <button
+        id="toastClose"
+        class="toast-close"
+        onclick="closeToast()"
+    >
+        ✕
+    </button>
+
+    <div id="toastMessage"></div>
+
+</div>
+
+<!-- LOGIN -->
+<div id="adminLoginBox" class="admin-login-box">
+    <div class="admin-login-card">
+        <div class="kembali-menu"> 
+        <a href="index.html">
+            <i class="bi bi-arrow-left-circle"></i> Kembali ke Menu
+        </a></div>
+
+        <h2> <i class="bi bi-shield-lock">Login Admin </i></h2>
+
+        <input type="text" id="adminUsername" placeholder="Username">
+        <input type="password" id="adminPassword" placeholder="Password">
+
+        <button type="button" onclick="adminLogin()">
+            Masuk Dashboard
+        </button>
+
+        <div id="adminLoginPesan"></div>
+
+    </div>
+</div>
+
+
+<!-- ADMIN PAGE -->
+<section id="adminPage" class="admin-page">
+
+    <div class="admin-header">
+        <div>
+            <h1>Data Booking</h1>
+            <p>Kelola data konsumen, status booking, dan pekerjaan.</p>
+        </div>
+
+      
+      
+        <a href="dashboard-grafik.html" class="grafik-btn">
+            <i class="bi bi-pie-chart-fill"></i>
+            <span>Grafik</span>
+        </a>
+
+
+        <button class="logout-btn" onclick="logoutAdmin()">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Logout</span>
+        </button>
+
+    </div>
+
+  
+    <div class="admin-filter">
+
+      
+
+
+        <input
+            type="text"
+            id="filterKeyword"
+            placeholder="Cari nama / WhatsApp / tanggal acara"
+            oninput="tampilkanData()"
+        >
+
+        <select id="filterBulan" onchange="tampilkanData()">
+            <option value="">Pilih Bulan</option>
+            <option value="01">Januari</option>
+            <option value="02">Februari</option>
+            <option value="03">Maret</option>
+            <option value="04">April</option>
+            <option value="05">Mei</option>
+            <option value="06">Juni</option>
+            <option value="07">Juli</option>
+            <option value="08">Agustus</option>
+            <option value="09">September</option>
+            <option value="10">Oktober</option>
+            <option value="11">November</option>
+            <option value="12">Desember</option>
+        </select>
+
+        <select id="filterTahun" onchange="tampilkanData()">
+            <option value="">Pilih Tahun</option>
+        </select>
+
+        <select id="filterBooking" onchange="tampilkanData()">
+            <option value="">Semua Booking</option>
+            <option value="Baru">Baru</option>
+            <option value="Lama">Lama</option>
+        </select>
+
+        <select id="filterStatus" onchange="tampilkanData()">
+            <option value="">Semua Status</option>
+            <option value="belum">Belum</option>
+            <option value="selesai">Selesai</option>
+        </select>
+
+            <!-- tombol riset pilihan  -->
+            <button type="button" class="filter-reset-Btn"  onclick="resetFilter()">
+                <i class="bi bi-funnel-fill"></i>   Reset Filter
+            </button>
+            
+        <button type="button" class="filter-refresh-Btn" onclick="ambilDataGoogleSheet()">
+            <i class="bi bi-arrow-counterclockwise"></i></i> Refresh Data
+        </button>
+
+    </div>
+
+    <div class="table-wrap">
+
+        <table class="admin-table">
+
+            <thead>
+                <tr>
+                    <th class="hide-mobile">No</th>
+                    <th>Nama Pengantin</th>
+                    <th>WhatsApp</th>
+                    <th>Tanggal Acara</th>
+                    <th>Paket</th>
+                    <th class="hide-mobile">Booking</th>
+                    <th class="hide-mobile">Status Kerja</th>
+                    <th class="hide-mobile">Catatan Admin</th>
+                </tr>
+            </thead>
+
+            <tbody id="dataBookingBody">
+                <tr>
+                    <td colspan="8">Silakan login untuk memuat data.</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- POPUP -->
+<div id="popup" class="popup">
+    <div class="popup-box">
+
+        <button class="popup-close" onclick="tutupPopup()">
+            <i class="bi bi-x-lg"></i>
+        </button>
+
+        <h3>Detail Booking</h3>
+
+        <table class="popup-table">
+            <tbody id="popupDetailBody"></tbody>
+        </table>
+
+    </div>
+</div>
+
+<div id="popupPasswordHapus" class="popup-hapus">
+    <div class="popup-hapus-box">
+        <h3>Konfirmasi Password</h3>
+        <p>Masukkan password admin untuk melanjutkan hapus data.</p>
+
+        <input type="password" id="passwordHapus" placeholder="Password admin">
+
+        <div id="pesanPasswordHapus" class="pesan-hapus"></div>
+
+        <div class="popup-hapus-action">
+            <button type="button" class="btn-no" onclick="tutupPopupPasswordHapus()">
+                Batal
+            </button>
+
+            <button type="button" class="btn-yes" onclick="cekPasswordHapus()">
+                OK
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    // tombol reset filter
+
+    function resetFilter(){
+
+document.getElementById("filterKeyword").value = "";
+document.getElementById("filterBulan").value = "";
+document.getElementById("filterTahun").value = "";
+document.getElementById("filterBooking").value = "";
+document.getElementById("filterStatus").value = "";
+
+tampilkanData();
+}
+
+const scriptURL = "https://script.google.com/macros/s/AKfycbydw9IQb9eB2L9lvhuB8Suon7FWSc9ZFgZ_9-hnDASVESDCcBvrwbAAWPaCGP9oG8Cp/exec";
+
+let dataBooking = [];
+let indexEditAktif = null;
+
+// LOGIN ADMIN
+function adminLogin(){
+
+const username = document.getElementById("adminUsername").value.trim();
+const password = document.getElementById("adminPassword").value.trim();
+const pesan = document.getElementById("adminLoginPesan");
+
+pesan.innerHTML = "";
+
+if(username === "" || password === ""){
+    pesan.innerHTML = "Username dan password wajib diisi.";
+    return;
+}
+
+const callbackName = "handleAdminLogin";
+
+window[callbackName] = function(result){
+
+    if(result.status === "success"){
+
+        document.getElementById("adminLoginBox").style.display = "none";
+        document.getElementById("adminPage").style.display = "block";
+
+        mulaiSessionAdmin();
+
+        ambilDataGoogleSheet();
+
+    }else{
+        pesan.innerHTML = "Username atau password salah.";
+    }
+};
+
+const oldScript = document.getElementById("adminLoginScript");
+
+if(oldScript){
+    oldScript.remove();
+}
+
+const script = document.createElement("script");
+script.id = "adminLoginScript";
+script.src =
+    `${scriptURL}?mode=loginAdmin&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&callback=${callbackName}&v=${Date.now()}`;
+
+document.body.appendChild(script);
+}
+
+
+// AMBIL DATA GOOGLE SHEET
+function ambilDataGoogleSheet(){
+
+    const tbody = document.getElementById("dataBookingBody");
+
+    tbody.innerHTML = `
+        <tr>
+            <td colspan="8">Sedang memuat data...</td>
+        </tr>
+    `;
+
+    const callbackName = "handleAdminData";
+
+    window[callbackName] = function(result){
+
+        if(result.status !== "success"){
+
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8">Data gagal dimuat.</td>
+                </tr>
+            `;
+
+            return;
+        }
+
+        dataBooking = result.data || [];
+
+        isiFilterTahunOtomatis();
+
+        tampilkanData();
+    };
+
+    const oldScript = document.getElementById("adminJsonpScript");
+
+    if(oldScript){
+        oldScript.remove();
+    }
+
+    const script = document.createElement("script");
+    script.id = "adminJsonpScript";
+    script.src = `${scriptURL}?mode=admin&callback=${callbackName}&v=${Date.now()}`;
+
+    document.body.appendChild(script);
+}
+
+
+// TAMPILKAN DATA KE TABEL
+function tampilkanData(){
+
+    const tbody = document.getElementById("dataBookingBody");
+
+    const keyword = document.getElementById("filterKeyword").value.toLowerCase().trim();
+    const bulan = document.getElementById("filterBulan").value;
+    const tahun = document.getElementById("filterTahun").value;
+    const booking = document.getElementById("filterBooking").value.toLowerCase();
+    const status = document.getElementById("filterStatus").value.toLowerCase();
+
+    const hasil = dataBooking.filter(item => {
+
+        const namaPengantin = `${item.pengantinPria || ""} & ${item.pengantinWanita || ""}`;
+
+        const gabungan = `
+            ${namaPengantin}
+            ${item.whatsapp || ""}
+            ${item.tanggalAcara || ""}
+            ${item.pilihanPaket || ""}
+            ${item.statusBooking || ""}
+            ${item.statusPekerjaan || ""}
+        `.toLowerCase();
+
+        const cocokKeyword = gabungan.includes(keyword);
+
+        const bulanAcara = ambilBulan(item.tanggalAcara);
+        const tahunAcara = ambilTahun(item.tanggalAcara);
+
+        const cocokBulan = bulan === "" || bulanAcara === bulan;
+        const cocokTahun = tahun === "" || tahunAcara === tahun;
+
+        const cocokBooking =
+        booking === "" ||
+        String(item.statusBooking || "").toLowerCase() === booking;
+
+        const cocokStatus =
+        status === "" ||
+        String(item.statusPekerjaan || "").toLowerCase() === status;
+
+        return cocokKeyword && cocokBulan && cocokTahun && cocokBooking && cocokStatus;
+    });
+
+    if(hasil.length === 0){
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="8">Data tidak ditemukan.</td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    tbody.innerHTML = "";
+
+    hasil.forEach((item, index) => {
+
+        const indexAsli = dataBooking.indexOf(item);
+
+        const statusBookingClass =
+        String(item.statusBooking || "").toLowerCase() === "baru"
+        ? "baru"
+        : "lama";
+
+        const statusPekerjaanClass =
+        String(item.statusPekerjaan || "").toLowerCase() === "selesai"
+        ? "selesai"
+        : "belum";
+
+        tbody.innerHTML += `
+            <tr onclick="bukaPopup(${indexAsli})">
+
+                <td class="hide-mobile">${index + 1}</td>
+
+                <td>${isi(item.pengantinPria)} & ${isi(item.pengantinWanita)}</td>
+
+                <td>
+    <a
+        href="https://wa.me/62${String(item.whatsapp || "").replace(/^0/, "")}"
+        target="_blank"
+        class="wa-link"
+        onclick="event.stopPropagation()"
+    >
+        <i class="bi bi-whatsapp"></i>
+        ${isi(item.whatsapp)}
+    </a>
+</td>
+
+                <td>${isi(item.tanggalAcara)}</td>
+
+                <td>${isi(item.pilihanPaket)}</td>
+
+                <td class="hide-mobile">
+                    <span class="status ${statusBookingClass}">
+                        ${isi(item.statusBooking)}
+                    </span>
+                </td>
+
+                <td class="hide-mobile">
+                    <span class="status ${statusPekerjaanClass}">
+                        ${isi(item.statusPekerjaan)}
+                    </span>
+                </td>
+
+                <td class="hide-mobile">
+                    ${isi(item.catatanAdmin)}
+                </td>
+
+            </tr>
+        `;
+    });
+}
+
+
+// POPUP DETAIL
+function bukaPopup(index){
+    
+    indexEditAktif = index;
+
+    const item = dataBooking[index];
+
+    const detail = [
+        ["Tanggal Daftar", item.tanggalMasuk],
+        ["Nama Lengkap", item.namaLengkap],
+        ["WhatsApp", item.whatsapp],
+        ["Email", item.email],
+
+        ["Pengantin Pria", item.pengantinPria],
+        ["HP Pengantin Pria", item.hpPengantinPria],
+        ["Pengantin Wanita", item.pengantinWanita],
+        ["HP Pengantin Wanita", item.hpPengantinWanita],
+
+        ["Inisial Nama", item.inisialNama],
+        ["Welcome Sign", item.namaDiWelcomeSign],
+
+        ["Tanggal Acara", fieldDate("tanggalAcara", item.tanggalAcara, "Tanggal Acara")],
+        ["Jam Acara", fieldJam("jamAcara", item.jamAcara, "Jam Acara")],
+        ["Lokasi Acara", fieldEdit("lokasiAcara", item.lokasiAcara, "Lokasi Acara")],
+        ["Jenis Tempat", fieldSelect("jenisTempatAcara", item.jenisTempatAcara, "Jenis Tempat", ["Rumah","Gedung","Outdoor","Hotel","Lainnya"])],
+        ["Paket", fieldPaket(item.pilihanPaket)],
+
+        ["Warna Tenda", fieldEdit("warnaTenda", item.warnaTenda, "Warna Tenda")],
+        ["Warna Bunga", fieldEdit("warnaBunga", item.warnaBunga, "Warna Bunga")],
+        ["Catatan Tambahan", fieldEdit("catatanTambahan", item.catatanTambahan, "Catatan Tambahan")],
+
+
+        ["MUA", fieldEdit("mua", item.mua, "MUA")],
+        ["FG", fieldEdit("fg", item.fg, "FG")],
+        ["MC", fieldEdit("mc", item.mc, "MC")],
+        ["Musik", fieldEdit("musik", item.musik, "Musik")],
+        ["Upacara Adat", fieldEdit("upacaraAdat", item.upacaraAdat, "Upacara Adat")],
+
+["Harga Paket", fieldEdit("hargaPaket", formatAngkaRibuan(item.hargaPaket), "Harga Paket")],
+
+["Jumlah DP 1", fieldEdit("jumlahDp1", formatAngkaRibuan(item.jumlahDp1), "Jumlah DP 1")],
+
+["Jumlah DP 2", fieldEdit("jumlahDp2", formatAngkaRibuan(item.jumlahDp2), "Jumlah DP 2")],
+
+["Pelunasan", fieldEdit("jumlahDp3", formatAngkaRibuan(item.jumlahDp3), "Jumlah DP 3")],
+
+["Biaya lainnya", fieldEdit("biayaLainnya", formatAngkaRibuan(item.biayaLainnya), "Biaya lainnya")],
+
+["Total Biaya", formatAngkaRibuan(item.totalBiaya)],
+
+        ["Status Lunas", fieldSelect("statusLunas", item.statusLunas, "Status Lunas", ["lunas","belum lunas"])],
+        ["Status Booking", fieldSelect("statusBooking", item.statusBooking, "Status Booking", ["Baru","Lama"])],
+        ["Status Pekerjaan", fieldSelect("statusPekerjaan", item.statusPekerjaan, "Status Pekerjaan", ["belum","selesai"])],
+
+        ["Item Tenda", fieldTextarea("itemTenda", item.itemTenda, "Item Tenda")],
+        ["Catatan Admin", fieldEdit("catatanAdmin", item.catatanAdmin, "Catatan Admin")],
+
+        ["Foto Model Pelaminan", isiFotoPopup(item.fotoModelPelaminan)],
+        ["Bukti Pembayaran DP", isiFotoPopup(item.buktiPembayaranDp)],
+
+    ];
+
+    let html = "";
+
+    detail.forEach(row => {
+        html += `
+            <tr>
+                <td>${row[0]}</td>
+                <td>${row[1] || "-"}</td>
+            </tr>
+        `;
+    });
+
+
+    html += `
+<tr>
+    <td colspan="2">
+
+        <div class="popup-action">
+
+            <button type="button" class="hapus-btn" onclick="bukaPopupPasswordHapus()">
+                <i class="bi bi-trash-fill"></i>  Hapus
+            </button>
+
+            <button type="button" class="download-btn" onclick="downloadInvoice()">
+    <i class="bi bi-download"></i> Invoice
+</button>
+
+            <button type="button" class="download-btn" onclick="downloadDataBooking()">
+                <i class="bi bi-download"></i> Download
+            </button>
+
+        </div>
+
+    </td>
+</tr>
+`;
+    
+
+    document.getElementById("popupDetailBody").innerHTML = html;
+
+    
+
+document.getElementById("popup")
+.classList.add("active");
+
+document.body
+.classList.add("popup-open");
+}
+
+
+function tutupPopup(){
+
+    document.getElementById("popup")
+    .classList.remove("active");
+
+    document.body
+    .classList.remove("popup-open");
+}
+
+// SIMPAN REUSABLE 
+function fieldEdit(field, value, label){
+
+return `
+    <div class="edit-cell" id="wrap-${field}">
+        <span class="edit-value">${value || "-"}</span>
+
+        <button type="button" class="icon-btn edit-btn" onclick="editField('${field}', '${label}')">
+            <i class="bi bi-pencil-square"></i>
+        </button>
+    </div>
+`;
+}
+
+
+function editField(field, label){
+
+const item = dataBooking[indexEditAktif];
+
+const isUang = [
+    "hargaPaket",
+    "jumlahDp1",
+    "jumlahDp2",
+    "jumlahDp3",
+    "biayaLainnya",
+    "totalBiaya"
+].includes(field);
+
+document.getElementById(`wrap-${field}`).innerHTML = `
+    <div class="edit-cell">
+
+        <input
+    class="edit-input"
+    id="input-${field}"
+
+    ${isUang ? `
+        inputmode="numeric"
+        pattern="[0-9]*"
+    ` : ""}
+
+    value="${
+        isUang
+        ? formatAngkaRibuan(item[field] || "")
+        : (item[field] || "")
+    }"
+
+    ${isUang ? `
+        oninput="
+            this.value =
+            formatAngkaRibuan(this.value)
+        "
+    ` : ""}
+>
+
+        <button type="button" class="save-btn" onclick="simpanField('${field}', '${label}')">
+            <i class="bi bi-check-lg"></i>
+        </button>
+
+        <button type="button" class="cancel-btn" onclick="bukaPopup(indexEditAktif)">
+            <i class="bi bi-x-lg"></i>
+        </button>
+
+    </div>
+`;
+}
+
+//select area item tenda
+function fieldTextarea(field, value, label){
+
+return `
+    <div class="edit-textarea-box" id="wrap-${field}">
+
+        <div class="edit-value">
+            ${formatItemTenda(value)}
+        </div>
+
+        <button
+            type="button"
+            class="icon-btn edit-btn"
+            onclick="editTextarea('${field}', '${label}')"
+        >
+        <i class="bi bi-pencil-square"></i>
+        </button>
+
+    </div>
+`;
+}
+
+
+function editTextarea(field, label){
+
+const item = dataBooking[indexEditAktif];
+
+document.getElementById(`wrap-${field}`).innerHTML = `
+    <textarea class="edit-textarea" id="input-${field}">${item[field] || ""}</textarea>
+
+    <div class="edit-textarea-action">
+        <button type="button" class="save-btn" onclick="simpanField('${field}', '${label}')">
+            <i class="bi bi-check-lg"></i>
+        </button>
+
+        <button type="button" class="cancel-btn" onclick="bukaPopup(indexEditAktif)">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+`;
+}
+
+
+function fieldSelect(field, value, label, options){
+
+return `
+    <div class="edit-cell" id="wrap-${field}">
+        <span class="edit-value">
+            ${value || "-"}
+        </span>
+
+        <button
+            type="button"
+            class="icon-btn edit-btn"
+            onclick='editSelect(${JSON.stringify(field)}, ${JSON.stringify(label)}, ${JSON.stringify(options)})'
+        >
+        <i class="bi bi-pencil-square"></i>
+        </button>
+    </div>
+`;
+}
+
+// PILIH PAKET
+
+function fieldPaket(value){
+
+return `
+    <div class="edit-cell" id="wrap-pilihanPaket">
+        <span class="edit-value">${value || "-"}</span>
+
+        <button type="button" class="icon-btn edit-btn" onclick="editPaket()">
+            <i class="bi bi-pencil-square"></i>
+        </button>
+    </div>
+`;
+}
+
+//EDIT PAKET
+function editPaket(){
+
+const item = dataBooking[indexEditAktif];
+
+const options = [
+    "Paket All In - Lily",
+    "Paket All In - Jasmine",
+    "Paket All In - Rose",
+    "Paket All In - Orchide",
+    "Paket All In - Gedung",
+    "Paket All In - Intimate",
+    "Paket All In - Costum Premium",
+    "Paket Tent Decor - Lily",
+    "Paket Tent Decor - Jasmine",
+    "Paket Tent Decor - Rose",
+    "Paket Tent Decor - Orchide",
+    "Paket Tent Decor - Gedung",
+    "Paket Tent Decor - Intimate",
+    "Paket Tent Decor - Costum Premium"
+];
+
+let optionHtml = "";
+
+options.forEach(opt => {
+    optionHtml += `
+        <option value="${opt}" ${item.pilihanPaket === opt ? "selected" : ""}>
+            ${opt}
+        </option>
+    `;
+});
+
+document.getElementById("wrap-pilihanPaket").innerHTML = `
+    <div class="edit-cell">
+        <select class="edit-input" id="input-pilihanPaket">
+            ${optionHtml}
+        </select>
+
+        <button type="button" class="save-btn" onclick="simpanPaket()">
+            <i class="bi bi-check-lg"></i>
+        </button>
+
+        <button type="button" class="cancel-btn" onclick="bukaPopup(indexEditAktif)">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+`;
+}
+
+
+
+//SIMPAN PAKET
+
+function simpanPaket(){
+
+const item = dataBooking[indexEditAktif];
+
+const paketBaru = document.getElementById("input-pilihanPaket").value;
+
+const data = {
+    action: "updatePaket",
+    rowNumber: item.rowNumber,
+    pilihanPaket: paketBaru
+};
+
+fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(data)
+})
+.then(res => res.json())
+.then(result => {
+
+    if(result.status === "success"){
+
+        item.pilihanPaket = paketBaru;
+        item.itemTenda = result.itemTenda;
+
+        // alert("Paket dan Item Tenda berhasil disimpan.");
+        showToast("Paket dan Item Tenda berhasil disimpan.");
+
+        bukaPopup(indexEditAktif);
+
+    }else{
+        // alert("Gagal simpan paket: " + result.message);
+        showToast("Gagal simpan paket: " + result.message, "error");
+    }
+
+})
+.catch(error => {
+    alert("Gagal koneksi.");
+    console.error(error);
+});
+}
+
+//==========
+
+
+
+function simpanField(field, label){
+
+const item = dataBooking[indexEditAktif];
+
+const rawValue =
+document.getElementById(`input-${field}`).value;
+
+const valueBaru = [
+    "hargaPaket",
+    "jumlahDp1",
+    "jumlahDp2",
+    "jumlahDp3",
+    "biayaLainnya",
+    "totalBiaya"
+].includes(field)
+
+? rawValue.replace(/\./g, "")
+: rawValue;
+
+const data = {
+    action: "updateField",
+    rowNumber: item.rowNumber,
+    field: field,
+    value: valueBaru
+};
+
+fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(data)
+})
+.then(res => res.json())
+.then(result => {
+
+    if(result.status === "success"){
+
+        if([
+    "hargaPaket",
+    "jumlahDp1",
+    "jumlahDp2",
+    "jumlahDp3",
+    "biayaLainnya",
+    "totalBiaya"
+].includes(field)){
+    item[field] = formatAngkaRibuan(valueBaru);
+}else{
+    item[field] = valueBaru;
+}
+
+if([
+    "jumlahDp1",
+    "jumlahDp2",
+    "jumlahDp3",
+    "biayaLainnya"
+].includes(field)){
+
+    const total =
+        Number(String(item.jumlahDp1 || "0").replace(/\./g, "")) +
+        Number(String(item.jumlahDp2 || "0").replace(/\./g, "")) +
+        Number(String(item.jumlahDp3 || "0").replace(/\./g, "")) +
+        Number(String(item.biayaLainnya || "0").replace(/\./g, ""));
+
+    item.totalBiaya = formatAngkaRibuan(total);
+
+    fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify({
+            action: "updateField",
+            rowNumber: item.rowNumber,
+            field: "totalBiaya",
+            value: item.totalBiaya
+        })
+    });
+}
+
+showToast(label + " berhasil disimpan.");
+
+bukaPopup(indexEditAktif);
+}
+})
+.catch(error => {
+    // alert("Gagal koneksi.");
+    showToast("Gagal koneksi.", "error");
+    console.error(error);
+});
+}
+
+
+// TAMPILAN FOTO
+function isiFotoPopup(url){
+
+if(!url){
+    return "-";
+}
+
+return `
+    <img 
+        src="${convertDriveLink(url)}"
+        class="preview-foto-popup"
+        alt="Foto"
+    >
+`;
+}
+
+// LIHAT FOTO 
+function convertDriveLink(url){
+
+if(!url) return "";
+
+const fileId = url.match(/[-\w]{25,}/);
+
+if(fileId){
+    return `https://lh3.googleusercontent.com/d/${fileId[0]}`;
+}
+
+return url;
+}
+
+// AMBIL BULAN DARI FORMAT: Senin, 04-05-2026
+function ambilBulan(tanggal){
+
+    if(!tanggal) return "";
+
+    const match = String(tanggal).match(/(\d{2})-(\d{2})-(\d{4})/);
+
+    if(match){
+        return match[2];
+    }
+
+    return "";
+}
+
+
+// AMBIL TAHUN DARI FORMAT: Senin, 04-05-2026
+function ambilTahun(tanggal){
+
+if(!tanggal) return "";
+
+const match = String(tanggal).match(/(\d{2})-(\d{2})-(\d{4})/);
+
+if(match){
+    return match[3];
+}
+
+return "";
+}
+
+
+
+// AMBIL TAHUN PILIH TAHUN DARI DATABASE
+function isiFilterTahunOtomatis(){
+
+const selectTahun = document.getElementById("filterTahun");
+
+const tahunSet = new Set();
+
+dataBooking.forEach(item => {
+
+    const tahun = ambilTahun(item.tanggalAcara);
+
+    if(tahun){
+        tahunSet.add(tahun);
+    }
+});
+
+const tahunList = Array.from(tahunSet).sort();
+
+selectTahun.innerHTML = `
+    <option value="">Pilih Tahun</option>
+`;
+
+tahunList.forEach(tahun => {
+
+    selectTahun.innerHTML += `
+        <option value="${tahun}">${tahun}</option>
+    `;
+});
+} 
+
+function isi(value){
+    return value !== "" && value !== null && value !== undefined ? value : "-";
+}
+
+
+function formatRupiah(value){
+
+    if(value === "" || value === null || value === undefined){
+        return "-";
+    }
+
+    const angka = Number(value);
+
+    if(isNaN(angka)){
+        return value;
+    }
+
+    return "Rp " + angka.toLocaleString("id-ID");
+}
+
+function formatItemTenda(text){
+
+if(!text) return "-";
+
+return String(text)
+    .split(",")
+    .map(item => "• " + item.trim())
+    .join("<br>");
+}
+
+
+
+// <!-- SIMPAN EDIT REUSABLE select -->
+function editSelect(field, label, options){
+
+const item = dataBooking[indexEditAktif];
+
+let optionHtml = "";
+
+options.forEach(opt => {
+
+    optionHtml += `
+        <option value="${opt}"
+        ${item[field] === opt ? "selected" : ""}>
+            ${opt}
+        </option>
+    `;
+});
+
+document.getElementById(`wrap-${field}`).innerHTML = `
+    <div class="edit-cell">
+
+        <select class="edit-input" id="input-${field}">
+            ${optionHtml}
+        </select>
+
+        <button
+            type="button"
+            class="save-btn"
+            onclick="simpanField('${field}', '${label}')"
+        >
+        <i class="bi bi-check-lg"></i>
+        </button>
+
+        <button
+            type="button"
+            class="cancel-btn"
+            onclick="bukaPopup(indexEditAktif)"
+        >
+            ✕
+        </button>
+
+    </div>
+`;
+}
+
+// SIMPAN TANGGAL 
+function fieldDate(field, value, label){
+
+return `
+    <div class="edit-cell" id="wrap-${field}">
+        <span class="edit-value">${value || "-"}</span>
+
+        <button type="button" class="icon-btn edit-btn" onclick="editDate('${field}', '${label}')">
+            <i class="bi bi-pencil-square"></i>
+        </button>
+    </div>
+`;
+}
+
+
+function editDate(field, label){
+
+const item = dataBooking[indexEditAktif];
+
+const tanggalInput = ubahTanggalKeInputDate(item[field]);
+
+document.getElementById(`wrap-${field}`).innerHTML = `
+    <div class="edit-cell">
+        <input type="date" class="edit-input" id="input-${field}" value="${tanggalInput}">
+
+        <button type="button" class="save-btn" onclick="simpanDate('${field}', '${label}')">
+            <i class="bi bi-check-lg"></i>
+        </button>
+
+        <button type="button" class="cancel-btn" onclick="bukaPopup(indexEditAktif)">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+`;
+}
+
+
+function simpanDate(field, label){
+
+const item = dataBooking[indexEditAktif];
+
+const valueInput = document.getElementById(`input-${field}`).value;
+
+const valueBaru = formatTanggalDariInput(valueInput);
+
+const data = {
+    action: "updateField",
+    rowNumber: item.rowNumber,
+    field: field,
+    value: valueBaru
+};
+
+fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(data)
+})
+.then(res => res.json())
+.then(result => {
+
+    if(result.status === "success"){
+
+        item[field] = valueBaru;
+
+        alert(label + " berhasil disimpan.");
+
+        bukaPopup(indexEditAktif);
+
+    }else{
+        alert("Gagal simpan " + label);
+    }
+
+})
+.catch(error => {
+    alert("Gagal koneksi.");
+    console.error(error);
+});
+}
+
+// HELPER TANGGAL
+function ubahTanggalKeInputDate(tanggal){
+
+if(!tanggal) return "";
+
+const match = String(tanggal).match(/(\d{2})-(\d{2})-(\d{4})/);
+
+if(!match) return "";
+
+const hari = match[1];
+const bulan = match[2];
+const tahun = match[3];
+
+return `${tahun}-${bulan}-${hari}`;
+}
+
+
+function formatTanggalDariInput(value){
+
+if(!value) return "";
+
+const parts = value.split("-");
+
+const tahun = parts[0];
+const bulan = parts[1];
+const hari = parts[2];
+
+const namaHari = [
+    "Minggu",
+    "Senin",
+    "Selasa",
+    "Rabu",
+    "Kamis",
+    "Jumat",
+    "Sabtu"
+];
+
+const tanggalObj = new Date(`${tahun}-${bulan}-${hari}T00:00:00`);
+
+return `${namaHari[tanggalObj.getDay()]}, ${hari}-${bulan}-${tahun}`;
+}
+
+
+// HELPER FORMAT UANG 
+function formatAngkaRibuan(angka){
+
+if(!angka) return "";
+
+return String(angka)
+    .replace(/\D/g, "")
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+
+
+// EDIT SAVE JAM
+function fieldJam(field, value, label){
+
+return `
+    <div class="edit-cell" id="wrap-${field}">
+        <span class="edit-value">${value || "-"}</span>
+
+        <button type="button" class="icon-btn edit-btn" onclick="editJam('${field}', '${label}')">
+            <i class="bi bi-pencil-square"></i>
+        </button>
+    </div>
+`;
+}
+
+
+function editJam(field, label){
+
+const item = dataBooking[indexEditAktif];
+
+const jam = pecahJamAcara(item[field]);
+
+document.getElementById(`wrap-${field}`).innerHTML = `
+    <div class="edit-cell">
+        <input type="time" class="edit-input" id="input-${field}-mulai" value="${jam.mulai}">
+
+        <input type="time" class="edit-input" id="input-${field}-selesai" value="${jam.selesai}">
+
+        <button type="button" class="save-btn" onclick="simpanJam('${field}', '${label}')">
+           <i class="bi bi-check-lg"></i>
+        </button>
+
+        <button type="button" class="cancel-btn" onclick="bukaPopup(indexEditAktif)">
+            <i class="bi bi-x-lg"></i>
+        </button>
+    </div>
+`;
+}
+
+
+function simpanJam(field, label){
+
+const item = dataBooking[indexEditAktif];
+
+const mulai = document.getElementById(`input-${field}-mulai`).value;
+const selesai = document.getElementById(`input-${field}-selesai`).value;
+
+const valueBaru = `${mulai} - ${selesai} WIB`;
+
+const data = {
+    action: "updateField",
+    rowNumber: item.rowNumber,
+    field: field,
+    value: valueBaru
+};
+
+fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify(data)
+})
+.then(res => res.json())
+.then(result => {
+
+    if(result.status === "success"){
+
+        item[field] = valueBaru;
+
+        alert(label + " berhasil disimpan.");
+
+        bukaPopup(indexEditAktif);
+
+    }else{
+        alert("Gagal simpan " + label);
+    }
+
+})
+.catch(error => {
+    alert("Gagal koneksi.");
+    console.error(error);
+});
+}
+
+
+function pecahJamAcara(value){
+
+const hasil = {
+    mulai: "",
+    selesai: ""
+};
+
+if(!value) return hasil;
+
+const match = String(value).match(/(\d{2}:\d{2})\s*-\s*(\d{2}:\d{2})/);
+
+if(match){
+    hasil.mulai = match[1];
+    hasil.selesai = match[2];
+}
+
+return hasil;
+}
+
+//popup hapus
+function bukaPopupPasswordHapus(){
+    document.getElementById("passwordHapus").value = "";
+    document.getElementById("pesanPasswordHapus").innerHTML = "";
+    document.getElementById("popupPasswordHapus").classList.add("active");
+}
+
+function tutupPopupPasswordHapus(){
+    document.getElementById("popupPasswordHapus").classList.remove("active");
+}
+
+function cekPasswordHapus(){
+
+const password = document.getElementById("passwordHapus").value.trim();
+
+const pesan = document.getElementById("pesanPasswordHapus");
+
+const username =
+document.getElementById("adminUsername").value.trim();
+
+pesan.innerHTML = "";
+
+const callbackName = "handleCekPasswordHapus";
+
+window[callbackName] = function(result){
+
+    if(result.status === "success"){
+
+        tutupPopupPasswordHapus();
+
+        hapusDataBooking();
+
+    }else{
+
+        pesan.innerHTML = "Password salah.";
+    }
+};
+
+const oldScript =
+document.getElementById("cekPasswordScript");
+
+if(oldScript){
+    oldScript.remove();
+}
+
+const script = document.createElement("script");
+
+script.id = "cekPasswordScript";
+
+script.src =
+`${scriptURL}?mode=loginAdmin&username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&callback=${callbackName}&v=${Date.now()}`;
+
+document.body.appendChild(script);
+}
+
+//PERINTAH HAPUS TOTAL
+function hapusDataBooking(){
+
+const item = dataBooking[indexEditAktif];
+
+fetch(scriptURL, {
+    method: "POST",
+    body: JSON.stringify({
+        action: "hapusBooking",
+        rowNumber: item.rowNumber
+    })
+})
+.then(res => res.json())
+.then(result => {
+
+    if(result.status === "success"){
+
+        showToastPermanen("Data berhasil dihapus.");
+
+        dataBooking.splice(indexEditAktif, 1);
+
+        tutupPopup();
+
+        tampilkanData();
+
+    }else{
+        showToast(result.message, "error");
+    }
+
+})
+.catch(error => {
+    showToast("Gagal koneksi.", "error");
+    console.error(error);
+});
+}
+
+// toast hapus
+function showToastPermanen(message, type = "success"){
+
+const toast = document.getElementById("toastNotif");
+const msg = document.getElementById("toastMessage");
+
+msg.innerHTML = message;
+
+toast.className = "toast-notif show";
+
+if(type === "error"){
+    toast.classList.add("error");
+}
+
+clearTimeout(window.toastTimer);
+}
+
+//toast notif
+function showToast(message, type = "success"){
+
+const toast = document.getElementById("toastNotif");
+const msg = document.getElementById("toastMessage");
+
+msg.innerHTML = message;
+
+toast.className = "toast-notif show";
+
+if(type === "error"){
+    toast.classList.add("error");
+}
+
+clearTimeout(window.toastTimer);
+
+window.toastTimer = setTimeout(() => {
+    closeToast();
+}, 5000);
+}
+
+// keluar X 
+function closeToast(){
+    document.getElementById("toastNotif").classList.remove("show");
+}
+
+// download pdf umum
+
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+
+async function downloadDataBooking(){
+
+    const { jsPDF } = window.jspdf;
+
+    const doc = new jsPDF();
+
+    const item = dataBooking[indexEditAktif];
+
+    let y = 14;
+
+    // tanggal download
+    const sekarang = new Date();
+
+    const hari = sekarang.toLocaleDateString("id-ID", {
+        weekday: "long"
+    });
+
+    const tanggal = sekarang.toLocaleDateString("id-ID", {
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+    });
+
+    const jam = sekarang.toLocaleTimeString("id-ID", {
+        hour: "2-digit",
+        minute: "2-digit"
+    });
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+
+    doc.text(
+        `Di download: ${hari}, ${tanggal} - ${jam} WIB`,
+        14,
+        y
+    );
+
+    y += 8;
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+
+    doc.text("Data Booking Luxcury Decor", 14, y);
+
+    y += 10;
+
+    const dataList = [
+
+        ["Tanggal Daftar", item.tanggalMasuk],
+        ["Nama Lengkap", item.namaLengkap],
+        ["WhatsApp", item.whatsapp],
+        ["Email", item.email],
+
+        ["Pengantin Pria", item.pengantinPria],
+        ["HP Pengantin Pria", item.hpPengantinPria],
+
+        ["Pengantin Wanita", item.pengantinWanita],
+        ["HP Pengantin Wanita", item.hpPengantinWanita],
+
+        ["Inisial Nama", item.inisialNama],
+        ["Welcome Sign", item.namaDiWelcomeSign],
+
+        ["Tanggal Acara", item.tanggalAcara],
+        ["Jam Acara", item.jamAcara],
+
+        ["Lokasi Acara", item.lokasiAcara],
+        ["Jenis Tempat", item.jenisTempatAcara],
+
+        ["Paket", item.pilihanPaket],
+
+        ["Warna Tenda", item.warnaTenda],
+        ["Warna Bunga", item.warnaBunga],
+
+        ["Catatan Tambahan", item.catatanTambahan],
+
+        ["MUA", item.mua],
+        ["FG", item.fg],
+        ["MC", item.mc],
+        ["Musik", item.musik],
+
+        ["Upacara Adat", item.upacaraAdat]
+
+    ];
+
+    doc.setFontSize(11);
+
+    dataList.forEach(row => {
+
+        doc.setFont("helvetica", "bold");
+        doc.text(row[0], 14, y);
+
+        doc.setFont("helvetica", "normal");
+
+        const textValue = ": " + String(row[1] || "-");
+
+        const splitText = doc.splitTextToSize(textValue, 120);
+
+        doc.text(splitText, 65, y);
+
+        y += splitText.length * 6;
+    });
+
+    y += 4;
+
+    // FOTO MODEL
+    if(item.fotoModelPelaminan){
+
+        const imgData =
+        await imageToBase64(
+            convertDriveLink(item.fotoModelPelaminan)
+        );
+
+        doc.setFont("helvetica", "bold");
+
+        doc.text("Foto Model Pelaminan", 14, y);
+
+        doc.addImage(
+        imgData,
+        "JPEG",
+        14,
+        y + 4,
+        80,
+        80
+    );
+
+    y += 95;
+    }
+
+
+//CATATAN ADMIN
+// CATATAN ADMIN
+doc.setFont("helvetica", "bold");
+doc.setFontSize(11);
+
+doc.text("Catatan Admin", 14, y);
+
+y += 8;
+
+doc.setFont("helvetica", "normal");
+doc.setFontSize(10);
+
+const catatanAdmin =
+String(item.catatanAdmin || "-");
+
+const splitCatatan =
+doc.splitTextToSize(catatanAdmin, 80);
+
+doc.text(splitCatatan, 14, y);
+
+
+
+    // ITEM TENDA
+// ITEM TENDA DI KOTAK KANAN
+
+doc.setFont("helvetica", "bold");
+doc.setFontSize(14);
+
+doc.text("Item Tenda", 118, 78);
+
+doc.setFont("helvetica", "normal");
+doc.setFontSize(12);
+
+const itemTendaText =
+String(item.itemTenda || "-")
+    .split(",")
+    .map(v => "• " + v.trim())
+    .join("\n");
+
+const splitItemTenda =
+doc.splitTextToSize(itemTendaText, 70);
+
+doc.text(splitItemTenda, 118, 86);
+
+
+    // SAVE PDF
+    const namaFile =
+        "data-booking-lxd-" +
+        String(item.pengantinPria || "booking")
+        .toLowerCase()
+        .replace(/\s+/g, "-") +
+        ".pdf";
+
+    doc.save(namaFile);
+}
+
+async function imageToBase64(url){
+
+return new Promise((resolve, reject) => {
+
+    const img = new Image();
+
+    img.crossOrigin = "Anonymous";
+
+    img.onload = function(){
+
+        const canvas = document.createElement("canvas");
+
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.drawImage(img, 0, 0);
+
+        resolve(
+            canvas.toDataURL("image/jpeg", 0.85)
+        );
+    };
+
+    img.onerror = function(){
+        reject("Gagal memuat gambar");
+    };
+
+    img.src = url;
+});
+}
+</script>
+
+
+<script>
+
+const SESSION_LIMIT = 20 * 60 * 1000;
+    // trial 10 detik
+    // nanti ubah:
+    // const SESSION_LIMIT = 10 * 1000; 10 detik
+    
+    function mulaiSessionAdmin(){
+    
+        const expiredAt = Date.now() + SESSION_LIMIT;
+    
+        sessionStorage.setItem("adminLogin", "true");
+        sessionStorage.setItem("adminExpiredAt", expiredAt);
+    
+        mulaiIdleTimer();
+    }
+    
+    function resetSessionTimer(){
+    
+        const expiredAt = Date.now() + SESSION_LIMIT;
+    
+        sessionStorage.setItem("adminExpiredAt", expiredAt);
+    
+        clearTimeout(window.adminSessionTimer);
+    
+        window.adminSessionTimer =
+        setTimeout(logoutAdmin, SESSION_LIMIT);
+    }
+    
+    function mulaiIdleTimer(){
+    
+        resetSessionTimer();
+    
+        [
+            "click",
+            "mousemove",
+            "keydown",
+            "scroll",
+            "touchstart"
+        ].forEach(event => {
+    
+            document.addEventListener(
+                event,
+                resetSessionTimer
+            );
+        });
+    }
+    
+    function cekSessionAdmin(){
+    
+        const login =
+        sessionStorage.getItem("adminLogin");
+    
+        const expiredAt =
+        Number(sessionStorage.getItem("adminExpiredAt"));
+    
+        if(
+            login === "true" &&
+            expiredAt > Date.now()
+        ){
+    
+            document.getElementById("adminLoginBox").style.display = "none";
+    
+            document.getElementById("adminPage").style.display = "block";
+    
+            ambilDataGoogleSheet();
+    
+            mulaiIdleTimer();
+    
+        }else{
+    
+            logoutAdmin();
+        }
+    }
+    
+    window.addEventListener("load", function(){
+    
+        cekSessionAdmin();
+    
+    });
+    
+    function logoutAdmin(){
+    
+        clearTimeout(window.adminSessionTimer);
+    
+        sessionStorage.removeItem("adminLogin");
+        sessionStorage.removeItem("adminExpiredAt");
+    
+        document.getElementById("adminUsername").value = "";
+    
+        document.getElementById("adminPassword").value = "";
+    
+        document.getElementById("adminLoginPesan").innerHTML = "";
+    
+        document.getElementById("adminLoginBox").style.display = "flex";
+    
+        document.getElementById("adminPage").style.display = "none";
+    }
+    
+    </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="invoice-pdf.js"></script>
+</body>
+</html>

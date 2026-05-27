@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Luxcury Decor - Form Booking</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+
+<style>
+
+.loader{
+    width:55px;
+    height:55px;
+    border:5px solid #eadfce;
+    border-top:5px solid blue;
+    border-radius:50%;
+    margin:0 auto 18px;
+    animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+    100%{
+        transform:rotate(360deg);
+    }
+}
+</style>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    background:#f7f3ee;
+    font-family:Arial,sans-serif;
+    color:#333;
+}
+
+.wedding-form-section{
+    width:100%;
+    /* padding:40px 15px; */
+}
+
+.wedding-form-container{
+    max-width:760px;
+    margin:auto;
+    background:#fff;
+    padding:30px;
+    border-radius:20px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+
+.wedding-form-container h1{
+    text-align:center;
+    color:#6b4f2a;
+    margin-bottom:10px;
+    font-size:32px;
+}
+
+.wedding-form-container p{
+    text-align:center;
+    color:#666;
+    margin-bottom:30px;
+    line-height:1.6;
+}
+
+fieldset{
+    border:1px solid #eadfce;
+    border-radius:18px;
+    padding:20px;
+    margin-top:28px;
+}
+
+legend{
+    padding:0 10px;
+    color:#6b4f2a;
+    font-size:15px;
+    font-weight:bold;
+}
+
+.wedding-form-container label{
+    display:block;
+    margin-top:16px;
+    margin-bottom:6px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.wedding-form-container input,
+.wedding-form-container select,
+.wedding-form-container textarea{
+    width:100%;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:14px;
+    background:#fff;
+}
+
+.wedding-form-container textarea{
+    min-height:100px;
+    resize:vertical;
+}
+
+.wedding-form-container input[type="file"]{
+    padding:10px;
+    background:#fafafa;
+}
+
+
+
+.vendor-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.vendor-item{
+    width:100%;
+}
+
+.wedding-form-container button{
+    width:100%;
+    margin-top:30px;
+    padding:15px;
+    border:none;
+    border-radius:14px;
+    background:#6b4f2a;
+    color:#fff;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.wedding-form-container button:hover{
+    background:#4d371f;
+}
+
+
+.kembali-menu{
+    width:100%;
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:20px;
+}
+
+.kembali-menu a{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    text-decoration:none;
+
+    color:#2457ff;
+
+    font-size:15px;
+    font-weight:bold;
+}
+@media(max-width:700px){
+    .vendor-grid,
+    .checkbox-box{
+        grid-template-columns:1fr;
+    }
+
+    .wedding-form-container{
+        padding:22px;
+    }
+
+    .wedding-form-container h1{
+        font-size:26px;
+    }
+}
+
+.bintang{
+    color:red;
+    font-weight:bold;
+}
+
+.vendor-vendor{
+    color:red;
+font-size: 12px;
+}
+
+.bisa-dirubah{
+font-size: 12px;
+}
+
+.preview-foto-wrapper{
+    margin-top:14px;
+}
+
+.preview-foto{
+    width:100%;
+    max-width:320px;
+    height:auto;
+    margin-top:10px;
+    border-radius:14px;
+    display:none;
+    border:1px solid #eadfce;
+}
+</style>
+
+<style>
+    .popup-status{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.45);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+}
+
+.popup-box{
+    width:90%;
+    max-width:360px;
+    background:#fff;
+    border-radius:18px;
+    padding:28px 22px;
+    text-align:center;
+    position:relative;
+    box-shadow:0 12px 30px rgba(0,0,0,0.18);
+}
+
+.popup-box h3{
+    color:#6b4f2a;
+    margin-bottom:10px;
+}
+
+.popup-box p{
+    color:#666;
+    margin:0;
+}
+
+.popup-close{
+    position:absolute;
+    top:10px;
+    right:14px;
+    border:none;
+    background:none;
+    font-size:26px;
+    cursor:pointer;
+    color:#777;
+}
+
+.popup-action{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    margin-top:20px;
+}
+
+.popup-btn{
+    padding:10px 16px;
+    border-radius:10px;
+    text-decoration:none;
+    border:none;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:600;
+    transition:0.2s;
+}
+
+.popup-btn.primary{
+    background:#6b4f2a;
+    color:#fff;
+}
+
+.popup-btn.primary:hover{
+    background:#5a4021;
+}
+
+.popup-btn.secondary{
+    background:#f1f1f1;
+    color:#333;
+}
+
+.popup-btn.secondary:hover{
+    background:#ddd;
+}
+</style>
+</head>
+<body>
+
+<section class="wedding-form-section">
+
+    <div class="wedding-form-container">
+        <h4 class="kembali-menu">
+            <a href="index.html">
+                <i class="bi bi-arrow-left-circle"></i>
+                Kembali ke Menu
+            </a>
+        </h4>
+
+        <h1>Formulir Booking LXD</h1>
+
+        <p>
+             Isi biodata lengkap dan sesuai dengan pilihan paket dari Pricelist.
+        </p>
+
+        <form id="weddingForm">
+
+     <fieldset>
+
+        <legend> 1. DATA PENDAFTAR </legend> 
+  
+
+            <label>Nama Lengkap <span class="bintang">*</span></label>
+            <input type="text" name="nama" required>
+
+            <label>Nomor WhatsApp <span class="bintang">*</span></label>
+            <input type="tel" name="whatsapp"  placeholder="08xxxxxxxxxx" pattern="[0-9]+" inputmode="numeric" required > 
+
+            <label> Email <span class="bintang">*</span></label>
+            <input type="email" name="email" required>
+
+        </fieldset>
+
+        <fieldset> 
+           <legend> 2. DATA CALON PENGANTIN  </legend> 
+
+            <label>Nama Pengantin Pria <span class="bintang">*</span></label>
+            <input type="text" name="pengantin_pria" required>
+
+            <label>Nomor HP Pengantin Pria <span class="bintang">*</span></label>
+            <input type="tel" name="hp_pengantin_pria" placeholder="08xxxxxxxxxx" pattern="[0-9]+" inputmode="numeric" required > 
+
+            <label>Nama Pengantin Wanita <span class="bintang">*</span></label>
+            <input type="text" name="pengantin_wanita" required>
+
+            <label>Nomor HP Pengantin Wanita <span class="bintang">*</span></label>
+            <input type="tel" name="hp_pengantin_wanita" placeholder="08xxxxxxxxxx" pattern="[0-9]+" inputmode="numeric" required > 
+
+            <label>Inisial Nama <span class="bintang">*</span></label>
+            <input type="text" name="inisial_nama" required placeholder="contoh: AR">
+
+            <label>Nama Panggilan di Welcome Sign <span class="bintang">*</span> </label>
+            <input type="text" name="nama_di_welcome_sign" required placeholder="contoh: Aini & Reza">
+        </fieldset>
+
+        <fieldset>
+            <legend>3. HARI TANGGAL ACARA </legend>
+           
+            <label>Tanggal Acara <span class="bisa-dirubah"> (bisa diubah H-3 bulan) </span> <span class="bintang">*</span></label>
+            <input type="date" name="tanggal_acara" required>
+
+            <label>Jam Mulai Acara <span class="bintang">*</span></label>
+            <input type="time" name="jam_mulai_acara" required>
+            
+            <label>Jam Selesai Acara <span class="bintang">*</span></label>
+            <input type="time" name="jam_selesai_acara" required>
+
+            <label>Lokasi Acara <span class="bisa-dirubah"> (bisa diubah H-3 bulan) </span> <span class="bintang">*</span></label>
+            <textarea name="lokasi_acara" required></textarea>
+
+            <label>Jenis Tempat Acara <span class="bintang">*</span></label>
+            <select name="jenis_tempat_acara" required>
+                <option value="">Pilih Jenis Tempat Acara</option>
+                <option>Rumah</option>
+                <option>Gedung</option>
+                <option>Outdoor</option>
+                <option>Hotel</option>
+                <option>Lainnya</option>
+            </select>
+        </fieldset> 
+ 
+        <fieldset>
+          <legend>  4. KONSEP DEKORASI </legend>
+
+            <label>Pilihan Paket <span class="bintang">*</span></label>
+
+            <select name="pilihan_paket" required>
+                <option value="">Pilih Paket</option>
+                <option>Paket All In - Lily</option>
+                <option>Paket All In - Jasmine</option>
+                <option>Paket All In  - Rose</option>
+                <option>Paket All In  - Orchide</option>
+                <option>Paket All In  - Gedung</option>
+                <option>Paket All In  - Intimate</option>
+                <option>Paket All In  - Costum Premium</option>
+                <option value=""></option>
+                <option>Paket Tent Decor</option>
+                <option>Paket Tent Decor - Lily</option>
+                <option>Paket Tent Decor - Jasmine</option>
+                <option>Paket Tent Decor - Rose</option>
+                <option>Paket Tent Decor - Orchide</option>
+                <option>Paket Tent Decor - Gedung</option>
+                <option>Paket Tent Decor - Intimate</option>
+                <option>Paket Tent Decor - Costum Premium</option>
+            </select>
+
+            <label>Warna Tenda</label>
+            <input type="text" name="warna_tenda" placeholder="Contoh: putih, gold, cream">
+
+            <label>Warna Bunga</label>
+            <input type="text" name="warna_bunga" placeholder="Contoh: putih, soft pink, gold">
+
+            <label>Catatan Tambahan</label>
+            <textarea name="catatan"></textarea>
+
+
+        </fieldset>
+
+        <fieldset>
+        <legend> 5. PILIHAN VENDOR </legend>   
+
+            <div class="vendor-grid">
+
+                <div class="vendor-item">
+                    <label>MakeUp Artist (MUA)  <span class="vendor-vendor">lihat di pricelist</span> </label>
+                    <input type="text" name="mua" placeholder="Nama MUA">
+                </div>
+
+                <div class="vendor-item">
+                    <label>Fotografher (FG)  <span class="vendor-vendor">lihat di pricelist</span></label>
+                    <input type="text" name="fg" placeholder="Nama FG">
+                </div>
+
+                <div class="vendor-item">
+                    <label>Pembawa Acara / MC  <span class="vendor-vendor">lihat di pricelist</span></label>
+                    <input type="text" name="mc" placeholder="Nama MC">
+                </div>
+
+                <div class="vendor-item">
+                    <label>Akustik / Organ  <span class="vendor-vendor">lihat di pricelist</span></label>
+                    <input type="text" name="musik" placeholder="Nama Vendor Musik">
+                </div>
+
+                <div class="vendor-item">
+                    <label>Upacara Adat</label>
+                    <input type="text" name="upacara_adat" placeholder="Jenis Upacara Adat">
+                </div>
+
+            </div>
+
+        </fieldset>
+       
+        <fieldset>
+
+            <legend>6. UPLOAD FOTO</legend>
+        
+            <label>
+                Upload Foto Model Pelaminan dari IG Luxcury Decor
+                <span class="bintang">*</span>
+            </label>
+        
+            <input
+                type="file"
+                name="foto_model_dari_ig"
+                id="fotoModelIG"
+                accept="image/*"
+                required
+            >
+        
+            <div class="preview-foto-wrapper">
+        
+                <img
+                    id="previewFotoModel"
+                    class="preview-foto"
+                    src=""
+                    alt="Preview Foto Model"
+                >
+        
+            </div>
+        
+        
+            <label>
+                Upload Bukti Pembayaran DP Awal jika Transfer
+                (lewati jika Pembayaran DP Cash)
+            </label>
+        
+            <input
+                type="file"
+                name="foto_bukti_tf"
+                id="fotoBuktiTF"
+                accept="image/*"
+            >
+        
+            <div class="preview-foto-wrapper">
+        
+                <img
+                    id="previewFotoTF"
+                    class="preview-foto"
+                    src=""
+                    alt="Preview Bukti Transfer"
+                >
+        
+            </div>
+        
+        </fieldset>
+
+            <button type="submit">
+                Kirim Pendaftaran
+            </button>
+
+        </form>
+
+    </div>
+
+    <div id="popupStatus" class="popup-status">
+        <div class="popup-box">
+      
+          <button type="button" id="popupClose" class="popup-close">×</button>
+      
+          <div class="loader" id="popupLoader"></div>
+      
+          <h3 id="popupTitle">Data sedang dikirim</h3>
+      
+          <p id="popupText">Mohon tunggu sebentar...</p>
+      
+          <div id="popupAction" class="popup-action"></div>
+      
+        </div>
+      </div>
+</section>
+
+
+
+<script src="script.js"></script>
+</body>
+</html>

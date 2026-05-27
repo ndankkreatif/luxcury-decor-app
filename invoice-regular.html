@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor Invoice</title>
+
+<style>
+body{
+    margin:0;
+    background:#ddd;
+    font-family:Arial,sans-serif;
+}
+
+.toolbar{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:9999;
+    background:#fff;
+    padding:14px;
+    border-radius:14px;
+    box-shadow:0 8px 25px rgba(0,0,0,.2);
+    display:flex;
+    gap:8px;
+    flex-direction:column;
+}
+
+.toolbar button{
+    border:none;
+    padding:10px 14px;
+    border-radius:10px;
+    background:#7b3fe4;
+    color:#fff;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.invoice-area{
+    position:relative;
+    width:794px;
+    margin:30px auto;
+    background:#fff;
+}
+
+.invoice-bg{
+    width:100%;
+    display:block;
+}
+
+.text-box{
+    position:absolute;
+    top:150px;
+    left:100px;
+    width:220px;
+    min-height:40px;
+    padding:8px;
+    border:1px dashed #7b3fe4;
+    background:rgba(255,255,255,.6);
+    cursor:move;
+}
+
+.text-box textarea{
+    width:100%;
+    height:70px;
+    border:none;
+    outline:none;
+    resize:none;
+    background:transparent;
+    font-size:16px;
+    font-family:Arial,sans-serif;
+}
+
+@media(max-width:850px){
+    .invoice-area{
+        width:100%;
+        margin-top:90px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="toolbar">
+    <button onclick="tambahText()">+ Tambah Text</button>
+    <button onclick="downloadPDF()">Download PDF</button>
+</div>
+
+<div class="invoice-area" id="invoiceArea">
+    <img src="invoice-nama-client-page-1.png" class="invoice-bg">
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+<script>
+const invoiceArea = document.getElementById("invoiceArea");
+
+function tambahText(){
+    const box = document.createElement("div");
+    box.className = "text-box";
+
+    box.innerHTML = `
+        <textarea placeholder="Tulis text di sini..."></textarea>
+    `;
+
+    invoiceArea.appendChild(box);
+    buatBisaGeser(box);
+}
+
+function buatBisaGeser(element){
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    element.addEventListener("mousedown", function(e){
+        if(e.target.tagName === "TEXTAREA") return;
+
+        isDragging = true;
+
+        offsetX = e.clientX - element.offsetLeft;
+        offsetY = e.clientY - element.offsetTop;
+
+        element.style.zIndex = 999;
+    });
+
+    document.addEventListener("mousemove", function(e){
+        if(!isDragging) return;
+
+        element.style.left = (e.clientX - offsetX) + "px";
+        element.style.top = (e.clientY - offsetY) + "px";
+    });
+
+    document.addEventListener("mouseup", function(){
+        isDragging = false;
+    });
+
+    element.addEventListener("touchstart", function(e){
+        isDragging = true;
+
+        const touch = e.touches[0];
+
+        offsetX = touch.clientX - element.offsetLeft;
+        offsetY = touch.clientY - element.offsetTop;
+    });
+
+    document.addEventListener("touchmove", function(e){
+        if(!isDragging) return;
+
+        const touch = e.touches[0];
+
+        element.style.left = (touch.clientX - offsetX) + "px";
+        element.style.top = (touch.clientY - offsetY) + "px";
+    });
+
+    document.addEventListener("touchend", function(){
+        isDragging = false;
+    });
+}
+
+async function downloadPDF(){
+    document.querySelectorAll(".text-box").forEach(box => {
+        box.style.border = "none";
+        box.style.background = "transparent";
+    });
+
+    const canvas = await html2canvas(invoiceArea, {
+        scale:2
+    });
+
+    const imgData = canvas.toDataURL("image/png");
+
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF("p", "mm", "a4");
+
+    pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
+    pdf.save("invoice-luxcury-decor.pdf");
+}
+</script>
+
+</body>
+</html>

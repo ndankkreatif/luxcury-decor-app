@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Grafik Admin LXD</title>
+
+<script src="chart.js"></script>
+
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+    
+    body{
+        font-family:Arial,sans-serif;
+        background:#f7f3ee;
+        color:#222;
+    }
+    
+    /* PAGE */
+    .grafik-page{
+        width:100%;
+        min-height:100vh;
+        padding:32px 18px;
+        display:flex;
+        justify-content:center;
+    }
+    
+    .grafik-container{
+        width:100%;
+        max-width:1050px;
+    }
+    
+    /* HEADER */
+    .grafik-header{
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:16px;
+        margin-bottom:22px;
+    }
+    
+    .grafik-header h1{
+        font-size:34px;
+        color:#3a2a18;
+        margin-bottom:6px;
+    }
+    
+    .grafik-header p{
+        color:#666;
+        font-size:15px;
+    }
+    
+    .kembali-btn{
+        text-decoration:none;
+        background:#3a2a18;
+        color:#fff;
+        padding:11px 16px;
+        border-radius:10px;
+        font-size:14px;
+        font-weight:bold;
+        white-space:nowrap;
+        transition:0.2s;
+    }
+    
+    .kembali-btn:hover{
+        opacity:0.9;
+    }
+    
+    /* GRID */
+    .rekap-grid{
+    display:grid;
+    grid-template-columns:320px 320px 1fr;
+    gap:18px;
+    margin-bottom:18px;
+    align-items:stretch;
+}
+    
+    /* CARD */
+    .card,
+    .wide-card{
+        background:#fff;
+        border:1px solid #e2d8cf;
+        border-radius:16px;
+        padding:20px;
+        box-shadow:0 10px 25px rgba(58,42,24,0.06);
+    }
+    
+    .card h3,
+    .wide-card h3{
+        color:#3a2a18;
+        margin-bottom:14px;
+    }
+    
+    .wide-card p{
+        color:#666;
+        font-size:14px;
+        margin-bottom:16px;
+    }
+    
+    /* CHART */
+    .chart-box{
+        position:relative;
+        width:100%;
+        height:260px;
+    }
+    
+    .line-box{
+        position:relative;
+        width:100%;
+        height:300px;
+    }
+    
+    .chart-box canvas,
+    .line-box canvas{
+        width:100% !important;
+        height:100% !important;
+    }
+    
+    /* LEGEND */
+    .legend{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:14px;
+    }
+    
+    /* TOTAL PENGANTIN */
+    .total-pengantin{
+        grid-column:1 / -1;
+        background:#f7f3ee;
+        border:1px solid #e2d8cf;
+        border-radius:16px;
+        padding:20px;
+        text-align:center;
+    }
+    
+    .total-pengantin span{
+        display:block;
+        font-size:14px;
+        color:#777;
+        margin-bottom:6px;
+    }
+    
+    .total-pengantin strong{
+        font-size:40px;
+        color:#3a2a18;
+        font-weight:bold;
+    }
+    
+    /* ITEM */
+    .legend-item{
+        background:#fff;
+        border:1px solid #ece6df;
+        border-radius:14px;
+        padding:16px;
+        display:flex;
+        flex-direction:column;
+        gap:10px;
+        transition:0.2s;
+    }
+    
+    .legend-item:hover{
+        transform:translateY(-2px);
+        box-shadow:0 8px 18px rgba(0,0,0,0.05);
+    }
+    
+    .legend-item span{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        color:#555;
+        font-size:14px;
+        line-height:1.4;
+    }
+    
+    .legend-item strong{
+        font-size:28px;
+        color:#3a2a18;
+        font-weight:bold;
+    }
+    
+    /* KOTAK WARNA */
+    .legend-color{
+        width:14px;
+        height:14px;
+        border-radius:4px;
+        display:inline-block;
+        flex-shrink:0;
+    }
+    
+    /* MOBILE */
+    @media(max-width:800px){
+    
+        .grafik-page{
+            padding:18px 14px;
+        }
+    
+        .grafik-container{
+            max-width:100%;
+        }
+    
+        .grafik-header{
+            align-items:flex-start;
+            margin-bottom:16px;
+        }
+    
+        .grafik-header h1{
+            font-size:26px;
+        }
+    
+        .grafik-header p{
+            font-size:12px;
+        }
+    
+        .kembali-btn{
+            padding:9px 12px;
+            border-radius:8px;
+            font-size:12px;
+        }
+    
+        .rekap-grid{
+            grid-template-columns:1fr;
+            gap:14px;
+        }
+    
+        .card,
+        .wide-card{
+            padding:15px;
+            border-radius:13px;
+        }
+    
+        .chart-box{
+            height:230px;
+        }
+    
+        .line-box{
+            height:250px;
+        }
+    
+        .legend{
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+        }
+    
+        .legend-item{
+            padding:12px;
+        }
+    
+        .legend-item span{
+            font-size:12px;
+        }
+    
+        .legend-item strong{
+            font-size:22px;
+        }
+    
+        .total-pengantin{
+            padding:16px;
+        }
+    
+        .total-pengantin strong{
+            font-size:34px;
+        }
+    }
+
+
+    .tahunan-layout{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:18px;
+    align-items:stretch;
+}
+
+.rekap-tahunan{
+    border:1px solid #ece6df;
+    border-radius:14px;
+    padding:16px;
+    background:#fff;
+}
+
+.rekap-tahunan h4{
+    color:#3a2a18;
+    margin-bottom:14px;
+    font-size:15px;
+}
+
+.rekap-tahunan-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+    font-size:14px;
+}
+
+.rekap-tahunan-item:last-child{
+    border-bottom:none;
+}
+
+.rekap-tahunan-item span{
+    color:#555;
+}
+
+.rekap-tahunan-item strong{
+    color:#3a2a18;
+    font-size:18px;
+}
+
+.tahunan-grid{
+    display:grid;
+    grid-template-columns:1.7fr 1fr;
+    gap:18px;
+    align-items:stretch;
+}
+
+.rekap-tahunan-list{
+    display:grid;
+    gap:12px;
+
+    max-height:300px;
+    overflow-y:auto;
+    padding-right:4px;
+}
+
+/* scrollbar */
+.rekap-tahunan-list::-webkit-scrollbar{
+    width:6px;
+}
+
+.rekap-tahunan-list::-webkit-scrollbar-thumb{
+    background:#d6cfc7;
+    border-radius:10px;
+}
+
+.rekap-tahunan-item{
+    border:1px solid #ece6df;
+    border-radius:12px;
+    padding:14px;
+    background:#fff;
+}
+
+.rekap-tahunan-item span{
+    display:block;
+    color:#666;
+    font-size:13px;
+    margin-bottom:6px;
+}
+
+.rekap-tahunan-item strong{
+    color:#3a2a18;
+    font-size:22px;
+}
+
+@media(max-width:800px){
+    .tahunan-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:800px){
+    .tahunan-layout{
+        grid-template-columns:1fr;
+    }
+}
+    
+    @media(max-width:480px){
+    
+        .legend{
+            grid-template-columns:1fr 1fr;
+        }
+    
+        .legend-item{
+            padding:10px;
+        }
+    
+        .legend-item strong{
+            font-size:20px;
+        }
+    
+        .legend-item span{
+            font-size:11px;
+        }
+    
+        .legend-color{
+            width:12px;
+            height:12px;
+        }
+    }
+    </style>
+</head>
+
+<body>
+
+<section class="grafik-page">
+
+    <div class="grafik-container">
+
+        <div class="grafik-header">
+            <div>
+                <h1>Dashboard Grafik</h1>
+                <p>Rekap data Luxcury Decor.</p>
+            </div>
+
+            <a href="dashboard-admin.html" class="kembali-btn">
+                Kembali
+            </a>
+        </div>
+
+        <!-- TOP -->
+<div class="rekap-grid">
+
+    <div class="card">
+        <h3>Status Pekerjaan</h3>
+
+        <div class="chart-box">
+            <canvas id="pekerjaanChart"></canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Status Booking</h3>
+
+        <div class="chart-box">
+            <canvas id="bookingChart"></canvas>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Detail Rekap</h3>
+
+        <div class="legend"></div>
+    </div>
+
+</div>
+
+
+<!-- BOTTOM -->
+<div class="tahunan-grid">
+
+    <div class="wide-card">
+        <h3>Grafik Tahunan</h3>
+        <p>Booking dan Pekerjaan</p>
+
+        <div class="line-box">
+            <canvas id="adminPanelLineChart"></canvas>
+        </div>
+    </div>
+
+    <div class="wide-card">
+        <h3>Rekap Tahunan</h3>
+        <p>Total pengantin per tahun</p>
+
+        <div id="rekapTahunanList"
+             class="rekap-tahunan-list">
+        </div>
+    </div>
+
+</div>
+
+</section>
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbydw9IQb9eB2L9lvhuB8Suon7FWSc9ZFgZ_9-hnDASVESDCcBvrwbAAWPaCGP9oG8Cp/exec";
+    
+    fetch(scriptURL + "?mode=grafik")
+    
+    .then(res => res.json())
+    
+    .then(data => {
+    
+        // =========================
+        // DETAIL REKAP
+        // =========================
+    
+        document.querySelector(".legend").innerHTML = `
+
+<div class="total-pengantin">
+    <span>Total Pengantin</span>
+    <strong>${data.totalPengantin}</strong>
+</div>
+
+<div class="legend-item">
+    <span>
+        <i class="legend-color" style="background:#1f7a43;"></i>
+        Pekerjaan Selesai
+    </span>
+    <strong>${data.selesai}</strong>
+</div>
+
+<div class="legend-item">
+    <span>
+        <i class="legend-color" style="background:#b42318;"></i>
+        Pekerjaan Belum Selesai
+    </span>
+    <strong>${data.belumSelesai}</strong>
+</div>
+
+<div class="legend-item">
+    <span>
+        <i class="legend-color" style="background:#777777;"></i>
+        Booking Lama
+    </span>
+    <strong>${data.bookingLama}</strong>
+</div>
+
+<div class="legend-item">
+    <span>
+        <i class="legend-color" style="background:#d99a2b;"></i>
+        Booking Baru
+    </span>
+    <strong>${data.bookingBaru}</strong>
+</div>
+
+`;
+    
+        // =========================
+        // PIE CHART
+        // =========================
+    
+    
+            new Chart(document.getElementById("pekerjaanChart"), {
+    type:"doughnut",
+    data:{
+        labels:["Selesai", "Belum Selesai"],
+        datasets:[{
+            data:[data.selesai, data.belumSelesai],
+            backgroundColor:["#1f7a43", "#b42318"],
+            borderWidth:0
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                position:"bottom"
+            }
+        }
+    }
+});
+
+new Chart(document.getElementById("bookingChart"), {
+    type:"doughnut",
+    data:{
+        labels:["Booking Lama", "Booking Baru"],
+        datasets:[{
+            data:[data.bookingLama, data.bookingBaru],
+            backgroundColor:["#777777", "#d99a2b"],
+            borderWidth:0
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{
+            legend:{
+                position:"bottom"
+            }
+        }
+    }
+});
+    
+        // =========================
+        // LINE CHART
+        // =========================
+    
+        const labels = Object.keys(data.grafikTahunan).sort();
+    
+        const values = labels.map(
+            tahun => data.grafikTahunan[tahun]
+        );
+
+        document.getElementById("rekapTahunanList").innerHTML = labels.map(tahun => `
+    <div class="rekap-tahunan-item">
+        <span>Tahun ${tahun}</span>
+        <strong>${data.grafikTahunan[tahun]} Pengantin</strong>
+    </div>
+`).join("");
+    
+        const adminPanelLineCtx =
+            document.getElementById("adminPanelLineChart");
+    
+        new Chart(adminPanelLineCtx, {
+    
+            type:"line",
+    
+            data:{
+                labels: labels,
+    
+                datasets:[{
+    
+                    label:"Jumlah Booking",
+    
+                    data: values,
+    
+                    fill:true,
+    
+                    tension:0.35,
+    
+                    backgroundColor:"rgba(31,122,67,0.18)",
+    
+                    borderColor:"#1f7a43",
+    
+                    pointBackgroundColor:"#1f7a43",
+    
+                    pointRadius:4
+                }]
+            },
+    
+            options:{
+    responsive:true,
+    maintainAspectRatio:false,
+
+    plugins:{
+        legend:{
+            display:false
+        }
+    },
+
+    scales:{
+        y:{
+            beginAtZero:false,
+            min:1,
+            ticks:{
+                stepSize:1
+            }
+        }
+    }
+}
+        });
+    
+    })
+    
+    .catch(err => {
+    
+        console.log(err);
+    
+    });
+    
+    </script>
+
+<script>
+
+const SESSION_LIMIT = 20 * 60 * 1000;
+    // const SESSION_LIMIT = 10 * 1000; 10 detik
+ 
+    
+    function resetSessionGrafik(){
+    
+        const expiredAt = Date.now() + SESSION_LIMIT;
+    
+        sessionStorage.setItem(
+            "adminExpiredAt",
+            expiredAt
+        );
+    
+        clearTimeout(window.adminSessionTimer);
+    
+        window.adminSessionTimer =
+        setTimeout(logoutGrafik, SESSION_LIMIT);
+    }
+    
+    function mulaiIdleGrafik(){
+    
+        resetSessionGrafik();
+    
+        [
+            "click",
+            "mousemove",
+            "keydown",
+            "scroll",
+            "touchstart"
+        ].forEach(event => {
+    
+            document.addEventListener(
+                event,
+                resetSessionGrafik
+            );
+        });
+    }
+    
+    function cekSessionGrafik(){
+    
+        const login =
+        sessionStorage.getItem("adminLogin");
+    
+        const expiredAt =
+        Number(
+            sessionStorage.getItem("adminExpiredAt")
+        );
+    
+        if(
+            login === "true" &&
+            expiredAt > Date.now()
+        ){
+    
+            mulaiIdleGrafik();
+    
+        }else{
+    
+            logoutGrafik();
+        }
+    }
+    
+    function logoutGrafik(){
+    
+        clearTimeout(window.adminSessionTimer);
+    
+        sessionStorage.removeItem("adminLogin");
+    
+        sessionStorage.removeItem(
+            "adminExpiredAt"
+        );
+    
+        window.location.href =
+        "dashboard-admin.html";
+    }
+    
+    window.addEventListener(
+        "load",
+        cekSessionGrafik
+    );
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Luxcury Decor</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+    font-family:Arial,sans-serif;
+    background:#f7f3ee;
+    color:#222;
+}
+
+.card{
+    width:100%;
+    max-width:500px;
+    background:#fff;
+    border-radius:20px;
+    padding:40px 30px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+
+.logo{
+    font-size:42px;
+    font-weight:bold;
+    color:#7b3fe4;
+    margin-bottom:10px;
+}
+
+h1{
+    font-size:26px;
+    margin-bottom:20px;
+    color:#3a2a18;
+}
+
+.nama{
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:20px;
+    line-height:1.5;
+}
+
+.tanggal{
+    font-size:18px;
+    color:#555;
+    margin-bottom:30px;
+}
+
+.footer{
+    font-size:15px;
+    color:#777;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="logo">LxD</div>
+
+    <h1>LUXCURY DECOR</h1>
+
+    <div class="nama" id="namaClient">
+        -
+    </div>
+
+    <div class="tanggal">
+        Hari Pernikahan:
+        <br><br>
+        Minggu, 24 Mei 2026
+    </div>
+
+    <div class="footer">
+        Terima kasih telah menggunakan jasa kami.
+    </div>
+
+</div>
+
+<script>
+
+const params =
+new URLSearchParams(window.location.search);
+
+const client =
+params.get("client") || "Client";
+
+const tanggal =
+params.get("tanggal") || "-";
+
+document.getElementById("namaClient")
+.innerHTML =
+client.toUpperCase();
+
+document.querySelector(".tanggal")
+.innerHTML = `
+    Hari Pernikahan:
+    <br><br>
+    ${tanggal}
+`;
+    
+    </script>
+
+</body>
+</html>

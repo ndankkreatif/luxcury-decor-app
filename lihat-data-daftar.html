@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Lihat Formulir - Luxcury Decor</title>
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+    
+    body{
+        font-family:Arial,sans-serif;
+        background:#f7f3ee;
+        color:#222;
+    }
+    
+    .lihat-section{
+    width:100%;
+    min-height:100vh;
+    padding:40px 0;
+    display:flex;
+    justify-content:center;
+}
+    
+    .lihat-container{
+        max-width:1100px;
+        margin:auto;
+
+    }
+    
+    .header{
+        margin-bottom:24px;
+    }
+    
+    .header h1{
+        font-size:30px;
+        color:#3a2a18;
+        margin-bottom:8px;
+    }
+    
+    .header p{
+        color:#666;
+        font-size:15px;
+    }
+    
+    .search-card{
+        background:#fff;
+        border:1px solid #ddd;
+        border-radius:8px;
+        padding:22px;
+        margin-bottom:25px;
+    }
+    
+    .search-row{
+        display:flex;
+        gap:10px;
+    }
+    
+    .search-row input{
+        flex:1;
+        padding:13px 14px;
+        border:1px solid #ccc;
+        border-radius:6px;
+        font-size:15px;
+    }
+    
+    .search-row button{
+        padding:13px 22px;
+        border:none;
+        border-radius:6px;
+        background:#3a2a18;
+        color:#fff;
+        font-size:15px;
+        font-weight:bold;
+        cursor:pointer;
+    }
+    
+    .message{
+        display:none;
+        margin-top:14px;
+        font-size:14px;
+    }
+    
+    .message.error{
+        display:block;
+        color:#b42318;
+    }
+    
+    .message.success{
+        display:block;
+        color:#1f7a43;
+    }
+    
+    .detail-box{
+    display:none;
+    background:#fff;
+    border:1px solid #ccc;
+    border-radius:8px;
+    padding:28px;
+    margin:auto;
+    width: 800px;
+}
+    
+    .detail-box.active{
+        display:block;
+    }
+    
+    .detail-title{
+        font-size:24px;
+        margin-bottom:10px;
+        /* color:#3a2a18;
+   
+        padding-bottom:14px;
+        border-bottom:1px solid #aaa; */
+    }
+    
+     h5 {
+        /* font-size:24px; */
+        color:blue;
+        margin-bottom:22px;
+        padding-bottom:14px;
+        border-bottom:1px solid #aaa;
+    }
+
+    .table-wrap{
+        width:100%;
+        overflow-x:auto;
+        padding-bottom: 20px;
+    }
+    
+    .data-table{
+        width:100%;
+        border-collapse:collapse;
+        table-layout:fixed;
+    }
+    
+    .data-table td{
+        padding:5px 10px;
+        /* border-bottom:1px solid #ccc; */
+        vertical-align:middle;
+        font-size:14px;
+        word-break:break-word;
+    }
+    
+    .data-table td:first-child{
+        width:260px;
+        font-weight:bold;
+        font-size:14px;
+        color:#111;
+    }
+    
+    .data-table td:nth-child(2){
+        color:#111;
+    }
+    
+    .data-table td:nth-child(3){
+        width:120px;
+        text-align:right;
+    }
+    
+    .btn-ubah{
+        display:none;
+        padding:8px 14px;
+        border:none;
+        border-radius:6px;
+        background:#3a2a18;
+        color:#fff;
+        cursor:pointer;
+        font-weight:bold;
+        white-space:nowrap;
+    }
+    
+    .btn-ubah.show{
+        display:inline-block;
+    }
+    
+    .photo-link{
+        color:#3a2a18;
+        font-weight:bold;
+        text-decoration:underline;
+    }
+    
+
+    .preview-foto{
+    width:100%;
+    max-width:250px;
+    border-radius:10px;
+    border:1px solid #ccc;
+    display:block;
+}
+
+
+.kembali-menu{
+    width:100%;
+    display:flex;
+    justify-content:flex-end;
+    margin-bottom:20px;
+}
+
+.kembali-menu a{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    text-decoration:none;
+
+    color:#2457ff;
+
+    font-size:15px;
+    font-weight:bold;
+}
+
+@media(max-width:700px){
+
+.lihat-section{
+    width:100%;
+    min-height:100vh;
+    padding:0;
+    display:flex;
+    justify-content:center;
+}
+
+.lihat-container{
+    width:100%;
+    max-width:100%;
+    padding:25px 10px;
+}
+
+.header h1{
+    font-size:24px;
+}
+
+.header p{
+    font-size:13px;
+}
+
+.search-row{
+    flex-direction:column;
+}
+
+.search-row input,
+.search-row button{
+    font-size:13px;
+    padding:11px;
+}
+
+.detail-box{
+    width:100%;
+    padding:10px;
+}
+
+.detail-title{
+    font-size:20px;
+}
+
+.data-table td{
+    font-size:13px;
+    padding:5px 5px;
+}
+
+.data-table td:first-child{
+    width:34%;
+    font-size:13px;
+}
+
+.data-table td:nth-child(2){
+    width:46%;
+    font-size:13px;
+}
+
+.downloadPDFButton,
+.keluarButton{
+    font-size:12px;
+    padding:10px 12px;
+}
+
+.preview-foto{
+    max-width:150px;
+}
+}
+    </style>
+
+<style>
+    .countdown-acara{
+    font-size:14px;
+    font-weight:normal;
+    color: blue;
+    margin-left:12px;
+}
+</style>
+
+<style>
+.menu-lihat-data{
+    width:100%;
+
+    display:flex;
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:20px;
+}
+
+.downloadPDFButton,
+.keluarButton{
+
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    padding:12px 18px;
+
+    border:none;
+    border-radius:8px;
+
+    cursor:pointer;
+
+    font-size:14px;
+    font-weight:bold;
+
+    color:#fff;
+}
+
+.downloadPDFButton{
+    background:#3a2a18;
+}
+
+.keluarButton{
+    background:#a12828;
+}
+</style>
+<body>
+
+<section class="lihat-section">
+    <div class="lihat-container">
+
+       
+
+        <div class="search-card" id="searchCard">
+            <div class="header">
+                <h4 class="kembali-menu">
+                    <a href="index.html">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        Kembali ke Menu
+                    </a>
+                </h4>
+        
+                <h1> <i class="bi bi-shield-lock"> Login Booking</i> </h1>
+                <p>Masukkan email atau nomor WhatsApp yang telah didaftarkan saat Booking.</p>
+            </div>
+            
+            <div class="search-row">
+                <input type="text" id="keyword" placeholder="Masukkan email atau nomor WhatsApp">
+                <button type="button" onclick="cariFormulir()">Login</button>
+            </div>
+            
+            <div id="pesan" class="message"></div>
+        </div>
+
+        <div id="detailForm" class="detail-box">
+            <h3 class="detail-title">
+                Data booking Luxcury Decor</span>  
+            </h3>
+
+            <h5>
+              Tanggal booking:  <span id="tanggalMasuk"></span> |   <span id="countdownAcara" class="countdown-acara"></span>
+            </h5>
+
+            <div class="table-wrap">
+                <table class="data-table">
+                    <tbody>
+                
+                        <tr>
+                            <td>Nama Pendaftar</td>
+                            <td id="nama">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Nomor WhatsApp</td>
+                            <td id="whatsapp">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Email</td>
+                            <td id="email">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Nama Pengantin Pria</td>
+                            <td id="pengantinPria">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Nomor HP Pengantin Pria</td>
+                            <td id="hpPengantinPria">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Nama Pengantin Wanita</td>
+                            <td id="pengantinWanita">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Nomor HP Pengantin Wanita</td>
+                            <td id="hpPengantinWanita">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Inisial Nama</td>
+                            <td id="inisialNama">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Nama di Welcome Sign</td>
+                            <td id="namaDiWelcomeSign">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Tanggal Acara</td>
+                            <td id="tanggalAcara">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Jam Acara</td>
+                            <td id="jamAcara">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Lokasi Acara</td>
+                            <td id="lokasiAcara">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Jenis Tempat Acara</td>
+                            <td id="jenisTempatAcara">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Pilihan Paket</td>
+                            <td id="pilihanPaket">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Warna Tenda</td>
+                            <td id="warnaTenda">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Warna Bunga</td>
+                            <td id="warnaBunga">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Catatan Tambahan</td>
+                            <td id="catatanTambahan">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>MUA</td>
+                            <td id="mua">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>FG</td>
+                            <td id="fg">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>MC</td>
+                            <td id="mc">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Akustik / Organ</td>
+                            <td id="musik">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Upacara Adat</td>
+                            <td id="upacaraAdat">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Foto Model Pelaminan</td>
+                            <td id="fotoModelPelaminan">-</td>
+                        </tr>
+                
+                        <tr>
+                            <td>Bukti Pembayaran DP</td>
+                            <td id="buktiPembayaranDp">-</td>
+                        </tr>
+                        <tr>
+                            <td>Item Tenda</td>
+                            <td id="itemTenda">-</td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+<h5> Item Tenda akan muncul setelah pembayaran dp telah dikonfirmasi dan terupdate saat survey lokasi </h5>
+    
+    
+    <div class="menu-lihat-data">
+                    <button   type="button"  onclick="downloadPDF()"  class="downloadPDFButton">  <i class="bi bi-download"> Download PDF</i>
+                </button>
+
+                <button   type="button"  class="keluarButton" onclick="location.reload()"><i class="bi bi-box-arrow-right"></i>Keluar  </button>
+
+                </div>
+
+            </div>
+
+       
+      
+
+        </div>
+
+
+
+    </div>
+
+
+
+</section>
+
+
+
+
+<script>
+const scriptURL = "https://script.google.com/macros/s/AKfycbydw9IQb9eB2L9lvhuB8Suon7FWSc9ZFgZ_9-hnDASVESDCcBvrwbAAWPaCGP9oG8Cp/exec";
+
+let idPencarian = 0;
+
+function cariFormulir(){
+
+    idPencarian++;
+
+    const pencarianSekarang = idPencarian;
+
+    const keyword = document.getElementById("keyword").value.trim();
+    const pesan = document.getElementById("pesan");
+    const detailForm = document.getElementById("detailForm");
+    const searchCard = document.getElementById("searchCard");
+
+    pesan.className = "message";
+    pesan.innerHTML = "";
+    detailForm.classList.remove("active");
+
+    if(keyword === ""){
+        pesan.className = "message error";
+        pesan.innerHTML = "Silakan masukkan email atau nomor WhatsApp.";
+        return;
+    }
+
+    pesan.className = "message success";
+    pesan.innerHTML = "Sedang mencari data...";
+
+    const callbackName = "handleDataPengantin";
+    const oldScript = document.getElementById("jsonpScript");
+
+    if(oldScript){
+        oldScript.remove();
+    }
+
+    window[callbackName] = function(data){
+
+        if(pencarianSekarang !== idPencarian){
+            return;
+        }
+
+        if(data.status === "success"){
+
+            isiText("tanggalMasuk", data.tanggalMasuk);
+            isiText("nama", data.nama);
+            isiText("whatsapp", data.whatsapp);
+            isiText("email", data.email);
+
+            isiText("pengantinPria", data.pengantinPria);
+            isiText("hpPengantinPria", data.hpPengantinPria);
+            isiText("pengantinWanita", data.pengantinWanita);
+            isiText("hpPengantinWanita", data.hpPengantinWanita);
+            isiText("inisialNama", data.inisialNama);
+            isiText("namaDiWelcomeSign", data.namaDiWelcomeSign);
+
+            isiText("tanggalAcara", data.tanggalAcara);
+            isiCountdownAcara(data.tanggalAcara);
+            isiText("jamAcara", data.jamAcara);
+            isiText("lokasiAcara", data.lokasiAcara);
+            isiText("jenisTempatAcara", data.jenisTempatAcara || data.jenisTempat);
+
+            isiText("pilihanPaket", data.pilihanPaket);
+            isiText("warnaTenda", data.warnaTenda);
+            isiText("warnaBunga", data.warnaBunga);
+            isiText("catatanTambahan", data.catatanTambahan || data.catatan);
+
+            isiText("mua", data.mua);
+            isiText("fg", data.fg);
+            isiText("mc", data.mc);
+            isiText("musik", data.musik);
+            isiText("upacaraAdat", data.upacaraAdat);
+            isiText("itemTenda", data.itemTenda);
+
+            isiFoto("fotoModelPelaminan", data.fotoModel);
+            isiFoto("buktiPembayaranDp", data.buktiDp);
+
+            pesan.className = "message";
+            pesan.innerHTML = "";
+            detailForm.classList.add("active");
+            searchCard.style.display = "none";
+
+        }else{
+
+            pesan.className = "message error";
+            pesan.innerHTML = "Data tidak ditemukan.";
+        }
+    };
+
+    const script = document.createElement("script");
+    script.id = "jsonpScript";
+    script.src = `${scriptURL}?keyword=${encodeURIComponent(keyword)}&callback=${callbackName}&v=${Date.now()}`;
+
+    document.body.appendChild(script);
+
+    setTimeout(function(){
+
+        if(
+            pencarianSekarang === idPencarian &&
+            pesan.innerHTML === "Sedang mencari data..."
+        ){
+            pesan.className = "message error";
+            pesan.innerHTML = "Data terlalu lama dimuat.<br>Silakan refresh halaman atau coba browser lain.";
+        }
+
+    }, 45000);
+}
+
+
+    function isiText(id, value){
+        document.getElementById(id).innerText = value || "-";
+    }
+    
+    function isiFoto(id, url){
+        const el = document.getElementById(id);
+    
+        if(!url){
+            el.innerHTML = "-";
+            return;
+        }
+    
+        el.innerHTML = `
+            <img 
+                src="${convertDriveLink(url)}" 
+                class="preview-foto"
+                alt="Foto"
+            >
+        `;
+    }
+    
+    function convertDriveLink(url){
+
+if(!url) return "";
+
+const fileId = url.match(/[-\w]{25,}/);
+
+if(fileId){
+    return `https://lh3.googleusercontent.com/d/${fileId[0]}`;
+}
+
+return url;
+}
+    </script>
+
+<script>
+    // coundown hari pernikahan
+    function isiCountdownAcara(tanggalAcara){
+    const el = document.getElementById("countdownAcara");
+
+    if(!tanggalAcara){
+        el.innerText = "";
+        return;
+    }
+
+    const hariIni = new Date();
+    const tanggal = new Date(tanggalAcara);
+
+    hariIni.setHours(0,0,0,0);
+    tanggal.setHours(0,0,0,0);
+
+    const selisih = tanggal - hariIni;
+    const hari = Math.ceil(selisih / (1000 * 60 * 60 * 24));
+
+    if(hari > 0){
+        el.innerText = `Pernikahan ${hari} hari lagi`;
+    }else if(hari === 0){
+        el.innerText = "Pernikahan hari ini";
+    }else{
+        el.innerText = "Tanggal pernikahan sudah lewat";
+    }
+}
+</script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+async function downloadPDF(){
+
+const { jsPDF } = window.jspdf;
+
+const doc = new jsPDF();
+
+let y = 14;
+
+// tanggal download 
+const sekarang = new Date();
+
+const hari = sekarang.toLocaleDateString("id-ID", {
+    weekday: "long"
+});
+
+const tanggal = sekarang.toLocaleDateString("id-ID", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+});
+
+const jam = sekarang.toLocaleTimeString("id-ID", {
+    hour: "2-digit",
+    minute: "2-digit"
+});
+
+doc.setFont("helvetica", "normal");
+
+doc.setFontSize(9);
+
+doc.text(
+    `Di download: ${hari}, ${tanggal} - ${jam} WIB`,
+    14,
+    y
+);
+
+y += 7;
+// --------
+
+doc.setFont("helvetica", "bold");
+doc.setFontSize(14);
+
+doc.text("Data Booking Luxcury Decor", 14, y);
+
+y += 8;
+
+doc.setFont("helvetica", "normal");
+doc.setFontSize(10);
+
+const tanggalMasukRaw = document.getElementById("tanggalMasuk").innerText;
+
+let tanggalMasuk = "-";
+
+if (tanggalMasukRaw) {
+    const tgl = new Date(tanggalMasukRaw);
+
+    tanggalMasuk = tgl.toLocaleString("id-ID", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        timeZone: "Asia/Jakarta",
+        timeZoneName: "short"
+    });
+}
+
+const countdownAcara = document.getElementById("countdownAcara").innerText || "-";
+
+doc.text(
+    `Tanggal booking: ${tanggalMasuk} | ${countdownAcara}`,
+    14,
+    y
+);
+
+y += 12;
+
+doc.setFontSize(12);
+
+const dataList = [
+
+    ["Nama Pendaftar", document.getElementById("nama").innerText],
+    ["WhatsApp", document.getElementById("whatsapp").innerText],
+    ["Email", document.getElementById("email").innerText],
+
+    ["Pengantin Pria", document.getElementById("pengantinPria").innerText],
+    ["HP Pengantin Pria", document.getElementById("hpPengantinPria").innerText],
+
+    ["Pengantin Wanita", document.getElementById("pengantinWanita").innerText],
+    ["HP Pengantin Wanita", document.getElementById("hpPengantinWanita").innerText],
+
+    ["Inisial Nama", document.getElementById("inisialNama").innerText],
+    ["Welcome Sign", document.getElementById("namaDiWelcomeSign").innerText],
+
+    ["Tanggal Acara", document.getElementById("tanggalAcara").innerText],
+    ["Jam Acara", document.getElementById("jamAcara").innerText],
+
+    ["Lokasi Acara", document.getElementById("lokasiAcara").innerText],
+    ["Jenis Tempat", document.getElementById("jenisTempatAcara").innerText],
+
+    ["Pilihan Paket", document.getElementById("pilihanPaket").innerText],
+    ["Warna Tenda", document.getElementById("warnaTenda").innerText],
+    ["Warna Bunga", document.getElementById("warnaBunga").innerText],
+
+    ["Catatan", document.getElementById("catatanTambahan").innerText],
+
+    ["MUA", document.getElementById("mua").innerText],
+    ["FG", document.getElementById("fg").innerText],
+    ["MC", document.getElementById("mc").innerText],
+
+    ["Akustik / Organ", document.getElementById("musik").innerText],
+    ["Upacara Adat", document.getElementById("upacaraAdat").innerText],
+
+
+
+];
+
+dataList.forEach(item => {
+
+    doc.setFont("helvetica", "bold");
+
+    doc.text(item[0], 14, y);
+
+    doc.setFont("helvetica", "normal");
+
+    doc.text(": " + String(item[1] || "-"), 68, y);
+
+    y += 6;
+});
+
+y += 4;
+
+const fotoModel =
+document.querySelector("#fotoModelPelaminan img");
+
+const buktiDp =
+document.querySelector("#buktiPembayaranDp img");
+
+
+if(fotoModel){
+
+const imgData =
+await imageToBase64(fotoModel.src);
+
+doc.setFont("helvetica", "bold");
+
+doc.text("Foto Model", 14, y);
+
+doc.addImage(
+    imgData,
+    "JPEG",
+    14,
+    y + 3,
+    45,
+    45
+);
+}
+
+if(buktiDp){
+
+const imgData =
+await imageToBase64(buktiDp.src);
+
+doc.setFont("helvetica", "bold");
+
+doc.text("Bukti TF", 80, y);
+
+doc.addImage(
+    imgData,
+    "JPEG",
+    80,
+    y + 3,
+    45,
+    45
+);
+}
+
+
+// item tenda
+["Item Tenda", document.getElementById("itemTenda").innerText]
+
+y += 58;
+
+doc.setFont("helvetica", "bold");
+doc.text("Item Tenda", 14, y);
+
+y += 6;
+
+doc.setFont("helvetica", "normal");
+
+const itemTendaText =
+document.getElementById("itemTenda").innerText || "-";
+
+const splitItemTenda =
+doc.splitTextToSize(itemTendaText, 180);
+
+doc.text(splitItemTenda, 14, y);
+
+
+
+
+const namaFile =
+    "data-booking-lxd-" +
+    document.getElementById("nama").innerText
+    .toLowerCase()
+    .replace(/\s+/g, "-") +
+    ".pdf";
+
+doc.save(namaFile);
+}
+
+
+
+
+async function imageToBase64(url){
+
+    return new Promise((resolve, reject) => {
+
+        const img = new Image();
+
+        img.crossOrigin = "Anonymous";
+
+        img.onload = function(){
+
+            const canvas = document.createElement("canvas");
+
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+
+            const ctx = canvas.getContext("2d");
+
+            ctx.drawImage(img, 0, 0);
+
+            resolve(canvas.toDataURL("image/jpeg", 0.85));
+        };
+
+        img.onerror = function(){
+            reject("Gagal memuat gambar");
+        };
+
+        img.src = url;
+    });
+}
+</script>
+</body>
+</html>

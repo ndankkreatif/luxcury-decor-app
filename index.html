@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Luxcury Decor</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#7b3fe4">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:#f7f3ee;
+    color:#333;
+}
+
+/* TOMBOL ADMIN */
+
+.admin-top{
+    position:fixed;
+    top:18px;
+    right:18px;
+    z-index:999;
+}
+
+.admin-btn{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    text-decoration:none;
+
+    background:#fff;
+    color:#6b4f2a;
+
+    padding:10px 14px;
+
+    border-radius:14px;
+
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+
+    font-size:14px;
+    font-weight:bold;
+
+    transition:0.3s;
+}
+
+.admin-btn i{
+    font-size:18px;
+}
+
+.admin-btn:hover{
+    background:#6b4f2a;
+    color:#fff;
+}
+
+.home{
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:30px 15px;
+}
+
+.home-container{
+    width:100%;
+    max-width:1000px;
+}
+
+.home-header{
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.home-header h1{
+    font-size:38px;
+    color:#6b4f2a;
+    margin-bottom:10px;
+}
+
+.home-header p{
+    color:#666;
+    font-size:16px;
+}
+
+.card-wrapper{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:25px;
+}
+
+.card-menu-booking,
+.card-lihat-data-booking{
+    background:#fff;
+    padding:35px 25px;
+    border-radius:22px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.08);
+    text-align:center;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+
+    min-height:260px;
+}
+
+.card-icon{
+    width:75px;
+    height:75px;
+    border-radius:18px;
+    background:#f2e7d7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.card-icon i{
+    font-size:34px;
+    color:#6b4f2a;
+}
+
+.card-menu-booking p,
+.card-lihat-data-booking p{
+    color:#666;
+    line-height:1.7;
+    margin-bottom:25px;
+    max-width:260px;
+}
+
+.card-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    text-decoration:none;
+    background:#6b4f2a;
+    color:#fff;
+    padding:13px 22px;
+    border-radius:12px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.card-btn:hover{
+    background:#4d371f;
+}
+
+@media(max-width:700px){
+
+.admin-top{
+    top:12px;
+    right:12px;
+}
+
+.admin-btn{
+    padding:9px 12px;
+    font-size:12px;
+    border-radius:12px;
+}
+
+.admin-btn i{
+    font-size:16px;
+}
+
+.home{
+    align-items:flex-start;
+    padding:70px 12px 20px;
+}
+
+.home-header{
+    margin-bottom:20px;
+}
+
+.home-header h1{
+    font-size:26px;
+}
+
+.home-header p{
+    font-size:13px;
+}
+
+.card-wrapper{
+    grid-template-columns:1fr;
+    gap:14px;
+}
+
+.card-menu-booking,
+.card-lihat-data-booking{
+
+    min-height:auto;
+
+    padding:22px 16px;
+
+    border-radius:16px;
+}
+
+.card-icon{
+    width:58px;
+    height:58px;
+
+    border-radius:14px;
+
+    margin-bottom:14px;
+}
+
+.card-icon i{
+    font-size:26px;
+}
+
+.card-menu-booking p,
+.card-lihat-data-booking p{
+
+    font-size:13px;
+
+    line-height:1.5;
+
+    margin-bottom:18px;
+}
+
+.card-btn{
+
+    width:100%;
+
+    justify-content:center;
+
+    padding:11px;
+
+    font-size:13px;
+
+    border-radius:10px;
+}
+}
+</style>
+</head>
+
+<body>
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("/service-worker.js");
+        }
+        </script>
+
+
+<!-- TOMBOL ADMIN -->
+<div class="admin-top">
+    <a href="dashboard-admin.html" class="admin-btn">
+        <i class="bi bi-person-circle"></i>
+        Admin
+    </a>
+
+    <a href="invoice-regular.html" class="admin-btn">
+        <i class="bi bi-person-circle"></i>
+        Download pdf regular
+    </a>
+</div>
+
+<section class="home">
+
+    <div class="home-container">
+
+        <div class="home-header">
+            <h1>Luxcury Decor</h1>
+            <p>Silakan pilih menu yang ingin Anda gunakan.</p>
+        </div>
+
+        <div class="card-wrapper">
+
+            <div class="card-menu-booking">
+
+                <div class="card-icon">
+                    <i class="bi bi-pencil-square"></i>
+                </div>
+
+                <p>
+                    Mengisi formulir booking untuk mengunci slot tanggal pernikahan.
+                </p>
+
+                <a href="formulir-pendaftaran-lxd.html" class="card-btn">
+                    Booking
+                </a>
+
+            </div>
+
+            <div class="card-lihat-data-booking">
+
+                <div class="card-icon">
+                    <i class="bi bi-file-earmark-text"></i>
+                </div>
+
+                <p>
+                    Lihat data booking yang sudah pernah dikirim.
+                </p>
+
+                <a href="lihat-data-daftar.html" class="card-btn">
+                    Lihat Data Booking
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+</body>
+</html>
