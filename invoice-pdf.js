@@ -337,20 +337,27 @@ function buatQRCode(text){
             "transaksi"
         ], 18, 262);
     
-const namaFile =
-    "invoice-" +
-    String(namaClient || "luxcury-decor")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-") +
-    ".pdf";
+if (window.Capacitor) {
 
-const pdfBlob = doc.output("blob");
+    const pdfBase64 =
+        doc.output("datauristring").split(",")[1];
 
-const pdfUrl = URL.createObjectURL(pdfBlob);
+    const savedFile = await Filesystem.writeFile({
+        path: namaFile,
+        data: pdfBase64,
+        directory: Directory.Documents
+    });
 
-window.open(pdfUrl, "_blank");
-    }
-    
+    await Share.share({
+        title: namaFile,
+        url: savedFile.uri
+    });
+
+} else {
+
+    doc.save(namaFile);
+
+}
     function rowInvoice(doc, y, deskripsi, qty, harga, total){
     
         doc.setDrawColor(0, 0, 0);
