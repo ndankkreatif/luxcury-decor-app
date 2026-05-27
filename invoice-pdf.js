@@ -337,11 +337,18 @@ function buatQRCode(text){
             "simpan invoice ini sebagai bukti",
             "transaksi"
         ], 18, 262);
-    
+    const namaFile =
+    "invoice-" +
+    String(namaClient || "luxcury-decor")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-") +
+    ".pdf";
+
 if (window.Capacitor) {
 
-    const pdfBase64 =
-        doc.output("datauristring").split(",")[1];
+    const { Filesystem, Directory, Share } = window.Capacitor.Plugins;
+
+    const pdfBase64 = doc.output("datauristring").split(",")[1];
 
     const savedFile = await Filesystem.writeFile({
         path: namaFile,
@@ -351,6 +358,7 @@ if (window.Capacitor) {
 
     await Share.share({
         title: namaFile,
+        text: "Invoice Luxcury Decor",
         url: savedFile.uri
     });
 
@@ -359,6 +367,8 @@ if (window.Capacitor) {
     doc.save(namaFile);
 
 }
+
+        
     function rowInvoice(doc, y, deskripsi, qty, harga, total){
     
         doc.setDrawColor(0, 0, 0);
